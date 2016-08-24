@@ -2,6 +2,7 @@
 <playground version='6.0' target-platform='ios' display-mode='raw'>
     <pages>
         <page name='First steps'/>
-        <page name='First steps with documentation'/>
+        <page name='Call the API'/>
+        <page name='Untitled Page'/>
     </pages>
 </playground>
