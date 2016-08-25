@@ -1,5 +1,5 @@
 /*:
- # Describe a picture!
+ # Describe your picture!
  
 It's time to get life into our app! Want to get your picture described by a remote service? Yes? YES? So get ready - and get to know the * *drumroooooll* * **COGNITIVE SERVICES**!
 
