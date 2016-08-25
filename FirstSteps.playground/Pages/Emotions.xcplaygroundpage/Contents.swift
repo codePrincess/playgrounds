@@ -1,9 +1,8 @@
 /*:
- # Describe your picture!
+ # Am I smiling - YES I AM!
  
- It's time to get life into our app! Want to get your picture described by a remote service? Yes? YES? So get ready - and get to know the * *drumroooooll* * **COGNITIVE SERVICES**!
- 
- We will start with the Computer Vision API. So let's see, what the "computer" can "see" on our image.
+ After successfully managing the ComputerVision API, we will dive a little bit further into the **COGNITIVE SERVICES**.
+ With the Emotion API we can detect - yes - emotions on human faces. What the API returns is not just the motion, but additionally the rectangle where this face is located at the picuture. Awesome, right?
  */
 
 //#-hidden-code
@@ -151,7 +150,7 @@ func makeEmojiFromEmotionOnPhoto (_ photo : UIImageView) {
 //#-end-hidden-code
 /*:
  * experiment:
- Every part of the description of the picture will be returned with a certain confidence. A good value is 0.85 for nice fitting results. But go a head and play around with this value and see, with what funky descriptions the "computer" may come along
+ What the API get from us is really just the image. In return we will get an array of emotion results, which contain a rectangle of the face position and size in the picture and certainties of the different emotions - there are 9 of them (neutral, happy, sad, angry, ...). The emotion with the highest certainty wins and will be mapped to an emoji by our app.
  */
 makeEmojiFromEmotionOnPhoto(preview)
 //#-hidden-code
@@ -160,8 +159,7 @@ PlaygroundPage.current.liveView = myView
 
 /*:
  * callout(What did we learn?):
- Wonderful! So you just called your first API from the Cognitive Services Suite. The Computer Vision API. If you want to have a detailed look at the documentation - where you can find further examples - visit the dedicated [Computer Vision documentation](https://www.microsoft.com/cognitive-services/en-us/computer-vision-api).
- */
+ Wonderful! So you just called your second API from the Cognitive Services Suite. The Emotion API. If you want to have a detailed look at the documentation - where you can find further examples - visit the dedicated [Emotion documentation](https://www.microsoft.com/cognitive-services/en-us/emotion-api/documentation) and the [Emotion API definition](https://dev.projectoxford.ai/docs/services/5639d931ca73072154c1ce89/operations/563b31ea778daf121cc3a5fa) */
 
-//: Enough of just describing photos. Let's catch a smile and let the API know! Let's rock on and continue by [using the Emotion API](@next)!
+//: Enough of just dealing with photos now! Let's listen to your voice and see what we can understand and do with it [using the Speech API](@next)!
 
