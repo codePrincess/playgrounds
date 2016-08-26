@@ -37,21 +37,41 @@ public struct CognitiveServicesEmotionResult {
     public let emotion: CognitiveServicesEmotion
 }
 
-/// Result closure type for callbacks.
+/// Result closure type for emotion callbacks.
 public typealias EmotionResult = ([CognitiveServicesEmotionResult]?, NSError?) -> (Void)
 
 
-/// Result closure type for callbacks. The first parameter is an array of suitable tags for the image.
+/// Result closure type for computer vision callbacks. The first parameter is an array of suitable tags for the image.
 public typealias CognitiveServicesTagsResult = ([String]?, NSError?) -> (Void)
 
-
-
-
+/// Possible results for faces callbacks
+public struct CognitiveServicesFacesResult {
+    public var frame: CGRect
+    public var faceId : String?
+    public var landmarks: [CGPoint]?
+    public var age : Int
+    public var gender : String
+    public var facialHair : String?
+    public var glasses : String?
+    
+    init () {
+        frame = CGRect(x: 0, y: 0, width: 0, height: 0)
+        faceId = ""
+        landmarks = nil
+        age = 0
+        gender = ""
+        facialHair = ""
+        glasses = ""
+    }
+}
+/// Result closure type for faces results
+public typealias FacesResult = ([CognitiveServicesFacesResult]?, NSError?) -> (Void)
 
 
 /// Fill in your API key here after getting it from https://www.microsoft.com/cognitive-services/en-US/subscriptions
 let CognitiveServicesComputerVisionAPIKey = "7d6761012715472485d38ebef90a66ac"
 let CognitiveServicesEmotionAPIKey = "857879e53c974cad8c284e3c41c2e382"
+let CognitiveServicesFacesAPIKey = "536e726fc77549758e9307c4765de8d3"
 
 /// Caseless enum of available HTTP methods.
 /// See https://dev.projectoxford.ai/docs/services/56f91f2d778daf23d8ec6739/operations/56f91f2e778daf14a499e1fa for details
@@ -71,6 +91,9 @@ enum CognitiveServicesHTTPHeader {
 enum CognitiveServicesHTTPParameters {
     static let VisualFeatures = "visualFeatures"
     static let Details = "details"
+    static let ReturnFaceId = "returnFaceId"
+    static let ReturnFaceLandmarks = "returnFaceLandmarks"
+    static let ReturnFaceAttributes = "returnFaceAttributes"
 }
 
 /// Caseless enum of available HTTP content types.
@@ -93,6 +116,16 @@ enum CognitiveServicesVisualFeatures {
     static let Adult = "Adult"
 }
 
+///Caseless enum of available face attributes returned for a sigle face
+enum CognitiveServicesFaceAttributes {
+    static let Age = "age"
+    static let Gender = "gender"
+    static let Smile = "smile"
+    static let FacialHair = "facialHair"
+    static let Glasses = "glasses"
+    static let HeadPose = "headPose"
+}
+
 /// Caseless enum of available JSON dictionary keys for the service's reply.
 /// See https://dev.projectoxford.ai/docs/services/56f91f2d778daf23d8ec6739/operations/56f91f2e778daf14a499e1fa and https://dev.projectoxford.ai/docs/services/5639d931ca73072154c1ce89/operations/563b31ea778daf121cc3a5fa for details
 enum CognitiveServicesKeys {
@@ -100,6 +133,9 @@ enum CognitiveServicesKeys {
     static let Name = "name"
     static let Confidence = "confidence"
     static let FaceRectangle = "faceRectangle"
+    static let FaceAttributes = "faceAttributes"
+    static let FaceLandmarks = "faceLandmarks"
+    static let FaceIdentifier = "faceId"
     static let Scores = "scores"
     static let Height = "height"
     static let Left = "left"
@@ -113,6 +149,9 @@ enum CognitiveServicesKeys {
     static let Neutral = "neutral"
     static let Sadness = "sadness"
     static let Surprise = "surprise"
+    static let Mustache = "mustache"
+    static let Beard = "beard"
+    static let Sideburns = "sideBurns"
 }
 
 /// Caseless enum of various configuration parameters.
@@ -120,13 +159,10 @@ enum CognitiveServicesKeys {
 enum CognitiveServicesConfiguration {
     static let AnalyzeURL = "https://api.projectoxford.ai/vision/v1.0/analyze"
     static let EmotionURL = "https://api.projectoxford.ai/emotion/v1.0/recognize"
+    static let FaceDetectURL = "https://api.projectoxford.ai/face/v1.0/detect"
     static let JPEGCompressionQuality = 0.9 as CGFloat
     static let RequiredConfidence = 0.85
 }
-
-
-
-
 
 
 
@@ -211,7 +247,10 @@ public class CognitiveServices: NSObject {
         
         task.resume()
     }
-   
+    
+
+    
+    
     
     /**
      Retrieves scores for a range of emotions and calls the completion closure with the most suitable one.
@@ -338,6 +377,117 @@ public class CognitiveServices: NSObject {
             }
         }
         
+        task.resume()
+    }
+    
+
+    /**
+     Retrieves face rectangles and features of faces within a picture.
+     
+     - parameter image:      The image to analyse.
+     - parameter completion: Callback closure.
+     */
+    public func retrieveFacesForImage(_ image: UIImage, completion: FacesResult?) {
+        assert(CognitiveServicesFacesAPIKey.characters.count > 0, "Please set the value of the API key variable (CognitiveServicesFacesAPIKey) before attempting to use the application.")
+        
+        print("i got a key - let's do this")
+        
+        var urlString = CognitiveServicesConfiguration.FaceDetectURL
+        urlString += "?\(CognitiveServicesHTTPParameters.ReturnFaceId)=true&\(CognitiveServicesHTTPParameters.ReturnFaceLandmarks)=true&\(CognitiveServicesHTTPParameters.ReturnFaceAttributes)=age,gender,facialHair,glasses"
+        
+        let url = URL(string: urlString)
+        print("calling the following URL: \(url)")
+        let request = NSMutableURLRequest(url: url!)
+        
+        request.addValue(CognitiveServicesFacesAPIKey, forHTTPHeaderField: CognitiveServicesHTTPHeader.SubscriptionKey)
+        request.addValue(CognitiveServicesHTTPContentType.OctetStream, forHTTPHeaderField: CognitiveServicesHTTPHeader.ContentType)
+        
+        let requestData = UIImageJPEGRepresentation(image, 0.9)
+        request.httpBody = requestData
+        request.httpMethod = CognitiveServicesHTTPMethod.POST
+        
+        print(request)
+        
+        let session = URLSession.shared
+        let task = session.dataTask(with: request as URLRequest) { (data, response, error) in
+            print("executed task")
+            
+            if let error = error {
+                completion!(nil, error as NSError?)
+                return
+            }
+            
+            if let data = data {
+                print("aaand got data! -> \(data)")
+                do {
+                    let collectionObject = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments)
+                    print("the data: \(collectionObject)")
+                    
+                    var resultArray = [CognitiveServicesFacesResult]()
+                    var result = CognitiveServicesFacesResult()
+                    
+                    let allData = collectionObject as? [Dictionary<String, AnyObject>]
+                    if let dictionary = allData?[0] {
+                        
+                        let rawFaceRectangle = dictionary[CognitiveServicesKeys.FaceRectangle]
+                        if let rect = rawFaceRectangle as? Dictionary<String, Int> {
+                            result.frame = CGRect(
+                                x: CGFloat(rect[CognitiveServicesKeys.Left]!),
+                                y: CGFloat(rect[CognitiveServicesKeys.Top]!),
+                                width: CGFloat(rect[CognitiveServicesKeys.Width]!),
+                                height: CGFloat(rect[CognitiveServicesKeys.Height]!)
+                            )
+                        }
+                        
+                        let rawfaceLandmarks = dictionary[CognitiveServicesKeys.FaceLandmarks]
+                        if let landmarks = rawfaceLandmarks as? Dictionary<String, Dictionary<String, Double>> {
+                            var landmarkPoints = [CGPoint]()
+                            for landmark in landmarks {
+                                let points = landmark.value
+                                landmarkPoints.append( CGPoint(x: points["x"]!, y: points["y"]!))
+                            }
+                            result.landmarks = landmarkPoints
+                        }
+                        
+                        let rawAttributes = dictionary[CognitiveServicesKeys.FaceAttributes]
+                        if let attributes = rawAttributes as? Dictionary<String, AnyObject> {
+                            result.age = attributes[CognitiveServicesFaceAttributes.Age] as! Int
+                            result.gender = attributes[CognitiveServicesFaceAttributes.Gender] as! String
+                            
+                            if let facialHair = attributes[CognitiveServicesFaceAttributes.FacialHair] as? Dictionary<String, Double> {
+                                var val : Double = 0
+                                for hair in facialHair {
+                                    if hair.value > val {
+                                        val = hair.value
+                                        result.facialHair = hair.key
+                                    }
+                                }
+                            }
+                            
+                            if let glasses = attributes[CognitiveServicesFaceAttributes.Glasses] as? String {
+                                result.glasses = glasses
+                            }
+                        }
+                        
+                        result.faceId = dictionary[CognitiveServicesKeys.FaceIdentifier] as? String
+                    }
+                    
+                    resultArray.append(result)
+                    
+                    print(resultArray)
+                    
+                    completion!(resultArray, nil)
+                    return
+                }
+                catch _ {
+                    completion!(nil, error as NSError?)
+                    return
+                }
+            } else {
+                completion!(nil, nil)
+                return
+            }
+        }
         task.resume()
     }
 
