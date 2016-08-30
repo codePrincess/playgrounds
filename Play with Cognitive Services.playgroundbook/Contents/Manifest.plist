@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Version</key>
+	<string>1.0</string>
+	<key>ContentVersion</key>
+	<string>1.0</string>
+	<key>Name</key>
+	<string>Play with Cognitive Services</string>
+	<key>ContentIdentifier</key>
+	<string>com.ms.demo.CSPlayground</string>
+	<key>DeploymentTarget</key>
+	<string>ios10.0</string>
+	<key>ImageReference</key>
+	<string>playground_icon.png</string>
+	<key>Chapters</key>
+	<array>
+		<string>Get Started.playgroundchapter</string>
+		<string>Computer Vision.playgroundchapter</string>
+		<string>Emotions.playgroundchapter</string>
+		<string>Faces.playgroundchapter</string>
+	</array>
+</dict>
+</plist>

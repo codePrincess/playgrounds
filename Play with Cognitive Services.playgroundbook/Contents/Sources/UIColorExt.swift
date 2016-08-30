@@ -1,15 +1,8 @@
 import Foundation
 import UIKit
 
-public extension Array {
-    func randomElement() -> Element {
-        let index = Int(arc4random_uniform(UInt32(self.count)))
-        return self[index]
-    }
-}
-
-extension UIColor {
-    convenience init(hexString:String) {
+public extension UIColor {
+    public convenience init(hexString:String) {
         
         let hexString = hexString.trimmingCharacters(in: NSCharacterSet.whitespacesAndNewlines)
         let scanner = Scanner(string: hexString)
@@ -33,7 +26,7 @@ extension UIColor {
         self.init(red:red, green:green, blue:blue, alpha:1)
     }
     
-    func toHexString() -> String {
+    public func toHexString() -> String {
         var r:CGFloat = 0
         var g:CGFloat = 0
         var b:CGFloat = 0
