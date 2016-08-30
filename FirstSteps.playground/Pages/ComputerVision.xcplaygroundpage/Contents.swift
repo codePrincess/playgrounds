@@ -49,7 +49,7 @@ func showTagsForImage (_ photo : UIImageView, _ confidence : Double) {
     manager.retrievePlausibleTagsForImage(photo.image!, confidence) { (result, error) -> (Void) in
         DispatchQueue.main.async(execute: {
             if let _ = error {
-                print("omg something bad happened")
+                print("omg something bad happened: \(error)")
             } else {
                 print("seems like all went well: \(result)")
             }

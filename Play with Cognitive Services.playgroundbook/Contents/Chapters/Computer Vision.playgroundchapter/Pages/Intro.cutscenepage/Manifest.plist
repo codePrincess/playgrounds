@@ -2,11 +2,11 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>Name</key>
+	<string>Introduction</string>
 	<key>Version</key>
 	<string>1.0</string>
-	<key>Name</key>
-	<string>Second Example Page</string>
-	<key>LiveViewMode</key>
-	<string>HiddenByDefault</string>
+	<key>CutsceneReference</key>
+	<string>cutscene.html</string>
 </dict>
 </plist>

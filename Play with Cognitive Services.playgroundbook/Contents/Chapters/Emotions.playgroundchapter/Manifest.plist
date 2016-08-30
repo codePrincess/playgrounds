@@ -8,8 +8,8 @@
 	<string>Emotions</string>
 	<key>Pages</key>
 	<array>
-		<string>Page1.playgroundpage</string>
-		<string>Page2.playgroundpage</string>
+		<string>Intro.cutscenepage</string>
+		<string>Smile.playgroundpage</string>
 	</array>
 </dict>
 </plist>

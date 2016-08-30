@@ -11,6 +11,8 @@ public class MyView : UIViewController {
     let textLabel = UILabel()
     let backgroundView = UIView()
     
+    var confidence = 0.85
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -51,6 +53,154 @@ public class MyView : UIViewController {
         textLabel.text = message
     }
     
+    //cognitive services functions
+    //MARK: - Computer Vision -
+    func showTagsForImage () {
+        let manager = CognitiveServices()
+        textLabel.text = "... gimme a sec - getting your tags!"
+        
+        preview.image = UIImage(named:"man.jpg")
+        
+        manager.retrievePlausibleTagsForImage(preview.image!, confidence) { (result, error) -> (Void) in
+            DispatchQueue.main.async(execute: {
+                if let _ = error {
+                    print("omg something bad happened")
+                } else {
+                    print("seems like all went well: \(result)")
+                }
+                self.setTagsAsDescription(result)
+            })
+        }
+    }
+    
+    func setTagsAsDescription (_ tags : [String]?) {
+        if (tags?.count)! > 0 {
+            textLabel.text = ""
+            for tag in tags! {
+                textLabel.text = textLabel.text! + "#" + tag + " "
+            }
+        } else {
+            textLabel.text = "Uh noez! No tags could be found for this image :("
+        }
+    }
+    
+    func adjustConfidence (_ value : Double) {
+        confidence = value
+    }
+    
+    //MARK: - Emotion API -
+    
+    var emojis: [CognitiveServicesEmotionResult]? = nil {
+        didSet {
+            if preview.image == nil {
+                return
+            }
+            
+            if let results = emojis {
+                UIGraphicsBeginImageContext(preview.image!.size)
+                preview.image?.draw(in: CGRect(origin: CGPoint.zero, size: preview.image!.size))
+                
+                for result in results {
+                    var availableEmojis = [String]()
+                    switch result.emotion {
+                    case .Anger:
+                        availableEmojis.append("😡")
+                        availableEmojis.append("😠")
+                    case .Contempt:
+                        availableEmojis.append("😤")
+                    case .Disgust:
+                        availableEmojis.append("😷")
+                        availableEmojis.append("🤐")
+                    case .Fear:
+                        availableEmojis.append("😱")
+                    case .Happiness:
+                        availableEmojis.append("😝")
+                        availableEmojis.append("😀")
+                        availableEmojis.append("😃")
+                        availableEmojis.append("😄")
+                        availableEmojis.append("😆")
+                        availableEmojis.append("😊")
+                        availableEmojis.append("🙂")
+                        availableEmojis.append("☺️")
+                    case .Neutral:
+                        availableEmojis.append("😶")
+                        availableEmojis.append("😐")
+                        availableEmojis.append("😑")
+                    case .Sadness:
+                        availableEmojis.append("🙁")
+                        availableEmojis.append("😞")
+                        availableEmojis.append("😟")
+                        availableEmojis.append("😔")
+                        availableEmojis.append("😢")
+                        availableEmojis.append("😭")
+                    case .Surprise:
+                        availableEmojis.append("😳")
+                        availableEmojis.append("😮")
+                        availableEmojis.append("😲")
+                    }
+                    
+                    let emoji = availableEmojis.randomElement()
+                    
+                    let maximumSize = result.frame.size
+                    let string = emoji as NSString
+                    let startingFontSize = 8192.0
+                    
+                    var actualFontSize = startingFontSize
+                    var stepping = actualFontSize
+                    repeat {
+                        stepping /= 2.0
+                        if stepping < 1.0 {
+                            break
+                        }
+                        
+                        let font = UIFont.systemFont(ofSize: CGFloat(actualFontSize))
+                        let calculatedSize = string.size(attributes: 	[NSFontAttributeName: font])
+                        
+                        if calculatedSize.width > maximumSize.width {
+                            actualFontSize -= stepping
+                        } else {
+                            actualFontSize += stepping
+                        }
+                    } while true
+                    
+                    let font = UIFont.systemFont(ofSize: CGFloat(actualFontSize))
+                    string.draw(in: result.frame, withAttributes: [NSFontAttributeName: font])
+                }
+                
+                preview.image = UIGraphicsGetImageFromCurrentImageContext()
+                UIGraphicsEndImageContext()
+            }
+        }
+    }
+    
+    
+    
+    func makeEmojiFromEmotionOnImage () {
+        let manager = CognitiveServices()
+        
+        preview.image = UIImage(named:"man.jpg")
+        
+        textLabel.text = "... gimme a sec - getting your tags!"
+        manager.retrievePlausibleEmotionsForImage(preview.image!) { (result, error) -> (Void) in
+            DispatchQueue.main.async(execute: {
+                if let _ = error {
+                    print("omg something bad happened")
+                } else {
+                    print("seems like all went well: \(result)")
+                }
+                
+                if (result?.count)! > 0 {
+                    self.textLabel.text = "1..2.. Emoji!\n\((result?.count)!) emotions detected"
+                } else {
+                    self.textLabel.text = "Seems like no emotions were detected :("
+                }
+                
+                self.emojis = result
+            })
+        }
+    }
+
+    
 }
 
 extension MyView : PlaygroundLiveViewMessageHandler {
@@ -69,6 +219,10 @@ extension MyView : PlaygroundLiveViewMessageHandler {
                 setTheImage(UIImage(named:text)!)
             } else if text.contains("#") {
                 setTheTextColor(UIColor(hexString: text))
+            } else if text == "retrieveTags" {
+                showTagsForImage()
+            } else if text == "placeEmotions" {
+                makeEmojiFromEmotionOnImage()
             } else {
                 setTheDescription(text)
             }
@@ -77,6 +231,7 @@ extension MyView : PlaygroundLiveViewMessageHandler {
         case let .boolean(boolean):
             reply("You sent me the value \(boolean)!")
         case let .floatingPoint(number):
+            adjustConfidence(number)
             reply("You sent me the number \(number)!")
         case let .date(date):
             reply("You sent me the date \(date)")
