@@ -1,10 +1,3 @@
-/*:
- # Am I smiling - YES I AM!
- 
- After successfully managing the ComputerVision API, we will dive a little bit further into the **COGNITIVE SERVICES**.
- With the Emotion API we can detect - yes - emotions on human faces. What the API returns is not just the motion, but additionally the rectangle where this face is located at the picuture. Awesome, right?
- */
-
 //#-hidden-code
 import PlaygroundSupport
 import UIKit
@@ -20,16 +13,20 @@ func placeEmojiForEmotion() {
         proxy.send(.string("placeEmotions"))
     }
 }
-
 //#-end-hidden-code
+/*:
+ # Am I smiling - YES I AM!
+ 
+ After successfully managing the ComputerVision API, we will dive a little bit further into the **COGNITIVE SERVICES**.
+ With the Emotion API we can detect - yes - emotions on human faces. What the API returns is not just the motion, but additionally the rectangle where this face is located at the picuture. Awesome, right?
+ */
+
 /*:
  * experiment:
  What the API get from us is really just the image. In return we will get an array of emotion results, which contain a rectangle of the face position and size in the picture and certainties of the different emotions - there are 9 of them (neutral, happy, sad, angry, ...). The emotion with the highest certainty wins and will be mapped to an emoji by our app.
  */
 
-/*#-editable-code*/
-placeEmojisForEmotions()
-/*#-end-editable-code*/
+placeEmojiForEmotion()
 
 /*:
  * callout(What did we learn?):

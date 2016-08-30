@@ -8,8 +8,8 @@
 	<string>Faces</string>
 	<key>Pages</key>
 	<array>
-		<string>Page1.playgroundpage</string>
-		<string>Page2.playgroundpage</string>
+		<string>Intro.cutscenepage</string>
+		<string>WhoIsThis.playgroundpage</string>
 	</array>
 </dict>
 </plist>

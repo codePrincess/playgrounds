@@ -46,3 +46,16 @@ public extension UIColor {
         return NSString(format:"#%06x", rgb) as String
     }
 }
+
+extension CGContext {
+    func addRect(rect:CGRect, fillColor:UIColor, strokeColor:UIColor, width:CGFloat) {
+        self.addRect(rect)
+        self.fillAndStroke(fillColor: fillColor, strokeColor: strokeColor, width: width)
+    }
+    func fillAndStroke(fillColor:UIColor, strokeColor:UIColor, width:CGFloat) {
+        self.setFillColor(fillColor.cgColor)
+        self.setStrokeColor(strokeColor.cgColor)
+        self.setLineWidth(width)
+        self.drawPath(using: CGPathDrawingMode.fillStroke)
+    }
+}

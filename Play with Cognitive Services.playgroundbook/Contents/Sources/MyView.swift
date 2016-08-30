@@ -10,6 +10,7 @@ public class MyView : UIViewController {
     let preview = UIImageView()
     let textLabel = UILabel()
     let backgroundView = UIView()
+    let landmarkView = MyLandmarkView()
     
     var confidence = 0.85
     
@@ -31,10 +32,16 @@ public class MyView : UIViewController {
         backgroundView.frame = CGRect(x: 0, y: view.bounds.height-170, width: view.bounds.width, height: 200)
         backgroundView.backgroundColor = .black
         backgroundView.alpha = 0.7
-
+        
+        landmarkView.frame = view.bounds
+        landmarkView.backgroundColor = .clear
+        landmarkView.alpha = 1
+        
         view.addSubview(preview)
         view.addSubview(backgroundView)
         view.addSubview(textLabel)
+        view.addSubview(landmarkView)
+        view.bringSubview(toFront: landmarkView)
     }
     
     public func setTheDescription(_ message: String) {
@@ -199,6 +206,57 @@ public class MyView : UIViewController {
             })
         }
     }
+    
+    //MARK: - Faces API - 
+    
+    func detectFaces () {
+        let manager = CognitiveServices()
+        
+        preview.image = UIImage(named:"man.jpg")
+        
+        textLabel.text = "... gimme a sec - getting your tags!"
+        
+        manager.retrieveFacesForImage(preview.image!) { (result, error) -> (Void) in
+            DispatchQueue.main.async(execute: {
+                if let _ = error {
+                    print("omg something bad happened")
+                } else {
+                    print("seems like all went well: \(result)")
+                }
+                
+                if (result?.count)! > 0 {
+                    let face = result?[0]
+                    self.textLabel.text = "Gender: \((face?.gender)!)\nAge: \((face?.age)!)\nGlasses: \((face?.glasses)!)\nFacial hair: \((face?.facialHair)!)"
+                    self.landmarkView.scaledImageRatio = self.scaledImageRatio()
+                    self.drawLandmarks(face!)
+                    
+                } else {
+                    self.textLabel.text = "Seems like no emotions were detected :("
+                }
+                
+                
+            })
+        }
+    }
+    
+    func scaledImageRatio () -> CGFloat {
+        let imageViewHeight = preview.bounds.height
+        let imageViewWidth = preview.bounds.width
+        let imageSize = preview.image!.size
+        let scaledImageHeight = min(imageSize.height * (imageViewWidth / imageSize.width), imageViewHeight)
+        let scaledImageWidth = min(imageSize.width * (imageViewHeight / imageSize.height), imageViewWidth)
+        
+        landmarkView.yOffset = (view.frame.height - scaledImageHeight) / CGFloat(2.0)
+        landmarkView.xOffset = (view.frame.width - scaledImageWidth) / CGFloat(2.0)
+        
+        let ratio : CGFloat = imageSize.height / scaledImageHeight
+        return ratio
+    }
+    
+    func drawLandmarks (_ face: CognitiveServicesFacesResult) {
+        landmarkView.face = face
+        landmarkView.setNeedsDisplay()
+    }
 
     
 }
@@ -223,6 +281,8 @@ extension MyView : PlaygroundLiveViewMessageHandler {
                 showTagsForImage()
             } else if text == "placeEmotions" {
                 makeEmojiFromEmotionOnImage()
+            } else if text == "detectFace" {
+                detectFaces()
             } else {
                 setTheDescription(text)
             }
