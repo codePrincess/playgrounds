@@ -4,7 +4,7 @@
  The first thing we want to try is to get hands on with what we know already - dealing with out beloved UIKit. You can use all elements of UIKit as you are used to. In this example we want to build our environment for our further examples. Let's warm up, put your hands on the playground and get started!
  
  * callout(What to do):
- Just choose a picture you like, then enter a text you think fits to the image. To make it nice looking, choose a color for your text and it's background.
+ Just choose a picture you like, then enter a text you think fits to the image. To make it nice looking, choose a color for your text.
  */
 
 //#-hidden-code
