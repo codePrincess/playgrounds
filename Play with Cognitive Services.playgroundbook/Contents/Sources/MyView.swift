@@ -21,7 +21,7 @@ public class MyView : UIViewController {
         
         preview.frame = view.bounds
         preview.contentMode = .scaleAspectFit
-        preview.image = UIImage(named: "man.jpg")
+        preview.image = UIImage(named: "woman.jpg")
         
         textLabel.frame = CGRect(x: 30, y: view.bounds.height-200, width: 350, height: 200)
         textLabel.lineBreakMode = .byWordWrapping
@@ -65,8 +65,7 @@ public class MyView : UIViewController {
     func showTagsForImage () {
         let manager = CognitiveServices()
         textLabel.text = "... gimme a sec - getting your tags!"
-        
-        preview.image = UIImage(named:"man.jpg")
+
         
         manager.retrievePlausibleTagsForImage(preview.image!, confidence) { (result, error) -> (Void) in
             DispatchQueue.main.async(execute: {
@@ -185,8 +184,6 @@ public class MyView : UIViewController {
     func makeEmojiFromEmotionOnImage () {
         let manager = CognitiveServices()
         
-        preview.image = UIImage(named:"man.jpg")
-        
         textLabel.text = "... gimme a sec - getting your tags!"
         manager.retrievePlausibleEmotionsForImage(preview.image!) { (result, error) -> (Void) in
             DispatchQueue.main.async(execute: {
@@ -211,8 +208,6 @@ public class MyView : UIViewController {
     
     func detectFaces () {
         let manager = CognitiveServices()
-        
-        preview.image = UIImage(named:"man.jpg")
         
         textLabel.text = "... gimme a sec - getting your tags!"
         
