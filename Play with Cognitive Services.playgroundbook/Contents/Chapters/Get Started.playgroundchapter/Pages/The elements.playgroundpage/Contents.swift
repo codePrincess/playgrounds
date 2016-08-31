@@ -6,7 +6,6 @@
  * callout(What to do):
  Just choose a picture you like, then enter a text you think fits to the image. To make it nice looking, choose a color for your text.
  */
-
 //#-hidden-code
 import PlaygroundSupport
 import UIKit
@@ -31,10 +30,18 @@ func setMyTextColor(_ color: UIColor) {
     }
 }
 
+func chooseImage (_ imageData: Data) {
+    let page = PlaygroundPage.current
+    if let proxy = page.liveView as? PlaygroundRemoteLiveViewProxy {
+        proxy.send(.data(imageData))
+    }
+}
 //#-end-hidden-code
+let image = /*#-editable-code*/#imageLiteral(resourceName: "beach.png")/*#-end-editable-code*/
+let dataImage = UIImagePNGRepresentation(image)
+chooseImage(dataImage!)
 setDescription(/*#-editable-code */"Description goes here!"/*#-end-editable-code*/)
 setMyTextColor(/*#-editable-code */#colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)/*#-end-editable-code*/)
-
 /*:
  * callout(What did we learn?):
  So we are done with the basics. We created a `UIImageView` with an embedded `UIImage`. Our description area consists of an `UIView`, which background color and alpha is adjustable. And above this background view we added a `UILabel`, which shows our nice descriptive text for the picture.

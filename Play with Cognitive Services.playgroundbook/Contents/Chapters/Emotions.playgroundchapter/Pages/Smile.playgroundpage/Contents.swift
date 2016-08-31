@@ -13,6 +13,14 @@ func placeEmojiForEmotion() {
         proxy.send(.string("placeEmotions"))
     }
 }
+
+func chooseImage (_ imageData: Data) {
+    let page = PlaygroundPage.current
+    if let proxy = page.liveView as? PlaygroundRemoteLiveViewProxy {
+        proxy.send(.data(imageData))
+    }
+}
+
 //#-end-hidden-code
 /*:
  # Am I smiling - YES I AM!
@@ -20,12 +28,13 @@ func placeEmojiForEmotion() {
  After successfully managing the ComputerVision API, we will dive a little bit further into the **COGNITIVE SERVICES**.
  With the Emotion API we can detect - yes - emotions on human faces. What the API returns is not just the motion, but additionally the rectangle where this face is located at the picuture. Awesome, right?
  */
-
 /*:
  * experiment:
  What the API get from us is really just the image. In return we will get an array of emotion results, which contain a rectangle of the face position and size in the picture and certainties of the different emotions - there are 9 of them (neutral, happy, sad, angry, ...). The emotion with the highest certainty wins and will be mapped to an emoji by our app.
  */
-
+let image = /*#-editable-code*/#imageLiteral(resourceName: "beach.png")/*#-end-editable-code*/
+let dataImage = UIImagePNGRepresentation(image)
+chooseImage(dataImage!)
 placeEmojiForEmotion()
 
 /*:

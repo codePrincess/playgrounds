@@ -9,6 +9,8 @@
 	<key>LiveViewMode</key>
 	<string>VisibleByDefault</string>
 	<key>LiveViewEdgeToEdge</key>
-	<string>NO</string>
+	<string>YES</string>
+	<key>PosterReference</key>
+	<string>background.png</string>
 </dict>
 </plist>

@@ -14,6 +14,13 @@ func detectFaces () {
         proxy.send(.string("detectFace"))
     }
 }
+
+func chooseImage (_ imageData: Data) {
+    let page = PlaygroundPage.current
+    if let proxy = page.liveView as? PlaygroundRemoteLiveViewProxy {
+        proxy.send(.data(imageData))
+    }
+}
 //#-end-hidden-code
 /*:
  # Who's on that picture?
@@ -29,8 +36,10 @@ func detectFaces () {
  So let's get the face analysis started. As you will see in a moment we get the facial landmarks (dots in the image), the face rectangle and general infos like age, gender, glasses and facial hair for the selected picture. Cool huh?
  */
 
+let image = /*#-editable-code*/#imageLiteral(resourceName: "beach.png")/*#-end-editable-code*/
+let dataImage = UIImagePNGRepresentation(image)
+chooseImage(dataImage!)
 detectFaces()
-
 /*:
  * callout(What did we learn?):
  The wonderful thing about this **Face API** is especially the retrieval of the landmarks of the face. We can do fun things with it, like pinning things into the face :D But we can identify this face, as soon as we added it to a PersonGroup, on other images. So we don't have to analyse the image itself and compare it to other faces to "find" persons on images. We can let the Face API do the work for us. Just have a look at the [Faces documentation](https://www.microsoft.com/cognitive-services/en-us/face-api/documentation/overview) and the way how to use [Persons and PersonGroups](https://www.microsoft.com/cognitive-services/en-us/face-api/documentation/face-api-how-to-topics/howtoidentifyfacesinimage) */

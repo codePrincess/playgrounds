@@ -16,7 +16,7 @@ class MyLandmarkView : UIView {
             
             //draw all found landmarks for the face
             for landmark in myFace.landmarks! {
-                context.addRect(rect: CGRect(x: (landmark.x / scaledImageRatio) + xOffset, y: (landmark.y / scaledImageRatio) + yOffset - 10, width: 2, height: 2), fillColor: .red, strokeColor: .red, width: 1)
+                context.addRect(rect: CGRect(x: (landmark.x / scaledImageRatio) + xOffset, y: (landmark.y / scaledImageRatio) + yOffset, width: 2, height: 2), fillColor: .red, strokeColor: .red, width: 1)
             }
             
             //draw the facerect

@@ -17,20 +17,22 @@ public class MyView : UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.frame = CGRect(x: 0, y: 0, width: 520, height: 748)
+        view.frame = CGRect(x: 0, y: 0, width: 520, height: 768)
+        let imageBGView = UIImageView(image: UIImage(named:"background.png")!)
+        view.addSubview(imageBGView)
         
         preview.frame = view.bounds
         preview.contentMode = .scaleAspectFit
         
-        textLabel.frame = CGRect(x: 30, y: view.bounds.height-200, width: 350, height: 200)
+        textLabel.frame = CGRect(x: 30, y: view.bounds.height-200, width: 350, height: 110)
         textLabel.lineBreakMode = .byWordWrapping
         textLabel.numberOfLines = 5
         textLabel.textColor = .white
         textLabel.text = "This label makes place for your description :)"
 
-        backgroundView.frame = CGRect(x: 0, y: view.bounds.height-170, width: view.bounds.width, height: 200)
+        backgroundView.frame = CGRect(x: 0, y: view.bounds.height-210, width: view.bounds.width, height: 210)
         backgroundView.backgroundColor = .black
-        backgroundView.alpha = 0.7
+        backgroundView.alpha = 0.5
         
         landmarkView.frame = view.bounds
         landmarkView.backgroundColor = .clear

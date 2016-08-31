@@ -7,6 +7,8 @@
 	<key>Name</key>
 	<string>Gimme a smile!</string>
 	<key>LiveViewMode</key>
-	<string>HiddenByDefault</string>
+	<string>VisibleByDefault</string>
+	<key>PosterReference</key>
+	<string>background.png</string>
 </dict>
 </plist>
