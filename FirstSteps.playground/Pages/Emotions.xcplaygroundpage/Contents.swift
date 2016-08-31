@@ -22,7 +22,7 @@ let preview = UIImageView(frame: myView.bounds)
  * experiment:
  Choose your preferred image right here or take a new one
  */
-preview.image = /*#-editable-code*/#imageLiteral(resourceName: "bw.jpg")/*#-end-editable-code*/
+preview.image = /*#-editable-code*/#imageLiteral(resourceName: "Giugli.png")/*#-end-editable-code*/
 //#-hidden-code
 preview.contentMode = .scaleAspectFit
 

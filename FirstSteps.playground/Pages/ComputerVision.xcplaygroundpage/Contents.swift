@@ -23,7 +23,7 @@ let preview = UIImageView(frame: myView.bounds)
  * experiment:
  Choose your preferred image right here or take a new one
  */
-preview.image = /*#-editable-code*/#imageLiteral(resourceName: "highway.png")/*#-end-editable-code*/
+preview.image = /*#-editable-code*/#imageLiteral(resourceName: "containers.png")/*#-end-editable-code*/
 //#-hidden-code
 preview.contentMode = .scaleAspectFit
 
@@ -74,7 +74,7 @@ func setTagsAsDescription (_ tags : [String]?) {
  * experiment:
  Every part of the description of the picture will be returned with a certain confidence. A good value is 0.85 for nice fitting results. But go a head and play around with this value and see, with what funky descriptions the "computer" may come along
  */
-showTagsForImage(preview, /*#-editable-code*/0.2/*#-end-editable-code*/)
+showTagsForImage(preview, /*#-editable-code*/0.01/*#-end-editable-code*/)
 //#-hidden-code
 PlaygroundPage.current.liveView = myView
 //#-end-hidden-code
