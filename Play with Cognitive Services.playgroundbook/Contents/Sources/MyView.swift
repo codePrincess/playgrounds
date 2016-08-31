@@ -21,13 +21,12 @@ public class MyView : UIViewController {
         
         preview.frame = view.bounds
         preview.contentMode = .scaleAspectFit
-        preview.image = UIImage(named: "woman.jpg")
         
         textLabel.frame = CGRect(x: 30, y: view.bounds.height-200, width: 350, height: 200)
         textLabel.lineBreakMode = .byWordWrapping
         textLabel.numberOfLines = 5
-        textLabel.textColor = .red
-        textLabel.text = "This is my text label"
+        textLabel.textColor = .white
+        textLabel.text = "This label makes place for your description :)"
 
         backgroundView.frame = CGRect(x: 0, y: view.bounds.height-170, width: view.bounds.width, height: 200)
         backgroundView.backgroundColor = .black
@@ -35,13 +34,14 @@ public class MyView : UIViewController {
         
         landmarkView.frame = view.bounds
         landmarkView.backgroundColor = .clear
-        landmarkView.alpha = 1
         
         view.addSubview(preview)
         view.addSubview(backgroundView)
         view.addSubview(textLabel)
         view.addSubview(landmarkView)
         view.bringSubview(toFront: landmarkView)
+        
+        makeLandmarkViewVisible(false)
     }
     
     public func setTheDescription(_ message: String) {
@@ -60,7 +60,21 @@ public class MyView : UIViewController {
         textLabel.text = message
     }
     
-    //cognitive services functions
+    public func makeLandmarkViewVisible(_ visible: Bool) {
+        landmarkView.alpha = visible ? 1.0 : 0.0
+    }
+    
+    public func updateImage ( _ image: UIImage) {
+        preview.image = image
+        view.setNeedsDisplay()
+        textLabel.text = "upated image ... wohooo \(image)"
+    }
+    
+    /** 
+     cognitive services functions
+     called from the LiveViewMessageHandler
+     */
+    
     //MARK: - Computer Vision -
     func showTagsForImage () {
         let manager = CognitiveServices()
@@ -79,7 +93,7 @@ public class MyView : UIViewController {
         }
     }
     
-    func setTagsAsDescription (_ tags : [String]?) {
+    private func setTagsAsDescription (_ tags : [String]?) {
         if (tags?.count)! > 0 {
             textLabel.text = ""
             for tag in tags! {
@@ -96,7 +110,7 @@ public class MyView : UIViewController {
     
     //MARK: - Emotion API -
     
-    var emojis: [CognitiveServicesEmotionResult]? = nil {
+    private var emojis: [CognitiveServicesEmotionResult]? = nil {
         didSet {
             if preview.image == nil {
                 return
@@ -228,13 +242,11 @@ public class MyView : UIViewController {
                 } else {
                     self.textLabel.text = "Seems like no emotions were detected :("
                 }
-                
-                
             })
         }
     }
     
-    func scaledImageRatio () -> CGFloat {
+    private func scaledImageRatio () -> CGFloat {
         let imageViewHeight = preview.bounds.height
         let imageViewWidth = preview.bounds.width
         let imageSize = preview.image!.size
@@ -248,13 +260,15 @@ public class MyView : UIViewController {
         return ratio
     }
     
-    func drawLandmarks (_ face: CognitiveServicesFacesResult) {
+    private func drawLandmarks (_ face: CognitiveServicesFacesResult) {
         landmarkView.face = face
         landmarkView.setNeedsDisplay()
     }
 
     
 }
+
+//MARK: - LiveView communication extension -
 
 extension MyView : PlaygroundLiveViewMessageHandler {
     public func liveViewMessageConnectionOpened() {
@@ -278,6 +292,10 @@ extension MyView : PlaygroundLiveViewMessageHandler {
                 makeEmojiFromEmotionOnImage()
             } else if text == "detectFace" {
                 detectFaces()
+            } else if text == "showFaceLandmarks" {
+                makeLandmarkViewVisible(true)
+            } else if text == "hideFaceLandmarks" {
+                makeLandmarkViewVisible(false)
             } else {
                 setTheDescription(text)
             }
@@ -290,8 +308,9 @@ extension MyView : PlaygroundLiveViewMessageHandler {
             reply("You sent me the number \(number)!")
         case let .date(date):
             reply("You sent me the date \(date)")
-        case .data:
-            reply("Hmm. I don't know what to do with data values.")
+        case let .data(mydata):
+            let theImage = UIImage(data: mydata)
+            updateImage(theImage!)
         case .array:
             reply("Hmm. I don't know what to do with an array.")
         case let .dictionary(dictionary):

@@ -10,6 +10,7 @@ guard #available(iOS 9, OSX 10.11, *) else {
 func detectFaces () {
     let page = PlaygroundPage.current
     if let proxy = page.liveView as? PlaygroundRemoteLiveViewProxy {
+        proxy.send(.string("showFaceLandmarks"))
         proxy.send(.string("detectFace"))
     }
 }

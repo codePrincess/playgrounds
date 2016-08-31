@@ -29,12 +29,22 @@ func retrieveTags() {
     }
 }
 
+func chooseImage (_ imageData: Data) {
+    let page = PlaygroundPage.current
+    if let proxy = page.liveView as? PlaygroundRemoteLiveViewProxy {
+        proxy.send(.data(imageData))
+    }
+}
+
 //#-end-hidden-code
 /*:
  * experiment:
  Every part of the description of the picture will be returned with a certain confidence. A good value is 0.85 for nice fitting results. But go a head and play around with this value and see, with what funky descriptions the "computer" may come along
  */
 
+let image = /*#-editable-code*/#imageLiteral(resourceName: "beach.png")/*#-end-editable-code*/
+let dataImage = UIImagePNGRepresentation(image)
+chooseImage(dataImage!)
 setConfidenceForComputerVision(/*#-editable-code*/0.2/*#-end-editable-code*/)
 retrieveTags()
 
