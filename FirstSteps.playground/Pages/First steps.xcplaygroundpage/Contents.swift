@@ -23,7 +23,7 @@ let myView = UIView(frame: CGRect(x: 0, y: 0, width: 450, height: 600))
 
 let preview = UIImageView(frame: myView.bounds)
 //#-end-hidden-code
-preview.image = /*#-editable-code*/#imageLiteral(resourceName: "shockedcat.jpg")/*#-end-editable-code*/
+preview.image = /*#-editable-code*/#imageLiteral(resourceName: "beach.png")/*#-end-editable-code*/
 //#-hidden-code
 preview.contentMode = .scaleAspectFit
 
