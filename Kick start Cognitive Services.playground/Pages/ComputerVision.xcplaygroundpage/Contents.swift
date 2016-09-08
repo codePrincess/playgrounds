@@ -27,9 +27,6 @@ preview.image = /*#-editable-code*/#imageLiteral(resourceName: "containers.png")
 //#-hidden-code
 preview.contentMode = .scaleAspectFit
 
-let textFileRef = #fileLiteral(resourceName: "justtext.txt")
-let stringFromFile = try String(contentsOf: textFileRef)
-
 let textLabel = UILabel(frame: CGRect(x: 30, y: myView.bounds.height-200, width: 350, height: 200))
 textLabel.lineBreakMode = .byWordWrapping
 textLabel.numberOfLines = 5
