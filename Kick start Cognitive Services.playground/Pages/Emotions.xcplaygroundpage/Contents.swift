@@ -127,7 +127,7 @@ didSet {
 
 func makeEmojiFromEmotionOnPhoto (_ photo : UIImageView) {
     let manager = CognitiveServices()
-    textLabel.text = "... gimme a sec - getting your tags!"
+    textLabel.text = "... gimme a sec - watching out for smiles!"
     manager.retrievePlausibleEmotionsForImage(photo.image!) { (result, error) -> (Void) in
         DispatchQueue.main.async(execute: {
             if let _ = error {

@@ -93,7 +93,7 @@ myView.bringSubview(toFront: landmarkView)
 
 func detectFaces (_ photo : UIImageView) {
     let manager = CognitiveServices()
-    textLabel.text = "... gimme a sec - getting your tags!"
+    textLabel.text = "... gimme a sec - wheeere are the faces!"
     
     manager.retrieveFacesForImage(photo.image!) { (result, error) -> (Void) in
         DispatchQueue.main.async(execute: {

@@ -200,7 +200,7 @@ public class MyView : UIViewController {
     func makeEmojiFromEmotionOnImage () {
         let manager = CognitiveServices()
         
-        textLabel.text = "... gimme a sec - getting your tags!"
+        textLabel.text = "... gimme a sec - looking for smiles!"
         manager.retrievePlausibleEmotionsForImage(preview.image!) { (result, error) -> (Void) in
             DispatchQueue.main.async(execute: {
                 if let _ = error {
@@ -225,7 +225,7 @@ public class MyView : UIViewController {
     func detectFaces () {
         let manager = CognitiveServices()
         
-        textLabel.text = "... gimme a sec - getting your tags!"
+        textLabel.text = "... gimme a sec - watching our for faces!"
         
         manager.retrieveFacesForImage(preview.image!) { (result, error) -> (Void) in
             DispatchQueue.main.async(execute: {
