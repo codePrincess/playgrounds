@@ -69,9 +69,9 @@ public typealias FacesResult = ([CognitiveServicesFacesResult]?, NSError?) -> (V
 
 
 /// Fill in your API key here after getting it from https://www.microsoft.com/cognitive-services/en-US/subscriptions
-let CognitiveServicesComputerVisionAPIKey = "<place your key here>"
-let CognitiveServicesEmotionAPIKey = "<place your key here>"
-let CognitiveServicesFacesAPIKey = "<place your key here>"
+let CognitiveServicesComputerVisionAPIKey = "4d761377672d4b3ca55fe17274c41f87"
+let CognitiveServicesEmotionAPIKey = "d93acbbc933743f8971d79c9ecdc2504"
+let CognitiveServicesFacesAPIKey = "55b65bfb4fdf4a1ebeed7239a949bb74"
 
 /// Caseless enum of available HTTP methods.
 /// See https://dev.projectoxford.ai/docs/services/56f91f2d778daf23d8ec6739/operations/56f91f2e778daf14a499e1fa for details
@@ -175,7 +175,7 @@ public class CognitiveServices: NSObject {
      - parameter image:      The image to analyse.
      - parameter completion: Callback closure.
      */
-    public func retrievePlausibleTagsForImage(_ image: UIImage, _ suggestedConfidence: Double, completion: CognitiveServicesTagsResult) {
+    public func retrievePlausibleTagsForImage(_ image: UIImage, _ suggestedConfidence: Double, completion: @escaping CognitiveServicesTagsResult) {
         assert(CognitiveServicesComputerVisionAPIKey.characters.count > 0, "Please set the value of the API key variable (CognitiveServicesVisualFeaturesAPIKey) before attempting to use the application.")
         
         print("i got a key - let's do this")
@@ -258,7 +258,7 @@ public class CognitiveServices: NSObject {
      - parameter image:      The image to analyse.
      - parameter completion: Callback closure.
      */
-    public func retrievePlausibleEmotionsForImage(_ image: UIImage, completion: EmotionResult) {
+    public func retrievePlausibleEmotionsForImage(_ image: UIImage, completion: @escaping EmotionResult) {
         assert(CognitiveServicesEmotionAPIKey.characters.count > 0, "Please set the value of the API key variable (CognitiveServicesEmotionAPIKey) before attempting to use the application.")
         
         print("i got a key - let's do this")

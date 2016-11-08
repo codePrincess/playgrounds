@@ -225,7 +225,7 @@ public class MyView : UIViewController {
     func detectFaces () {
         let manager = CognitiveServices()
         
-        textLabel.text = "... gimme a sec - watching our for faces!"
+        textLabel.text = "... gimme a sec - watching out for faces!"
         
         manager.retrieveFacesForImage(preview.image!) { (result, error) -> (Void) in
             DispatchQueue.main.async(execute: {
@@ -315,7 +315,7 @@ extension MyView : PlaygroundLiveViewMessageHandler {
             updateImage(theImage!)
         case .array:
             reply("Hmm. I don't know what to do with an array.")
-        case let .dictionary(dictionary):
+        case let .dictionary(_):
             reply("Hmm. I don't know what to do with an array.")
         }
     }
