@@ -1,8 +1,4 @@
-<p align="center">
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)]()
-<img src="https://img.shields.io/badge/platform-iOS-blue.svg?style=flat" alt="Platform iOS" />
-<a href="https://developer.apple.com/swift"><img src="https://img.shields.io/badge/swift3-compatible-4BC51D.svg?style=flat" alt="Swift 3 compatible" /></a>
-</p>
 
 # Hands on Swift Playgrounds for iPad
 
