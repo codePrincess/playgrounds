@@ -1,3 +1,5 @@
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)]()
+
 # Hands on Swift Playgrounds for iPad
 
 This playgrounds will show you how to code :) Not from the very beginning, but with super funny features. The first features in this playground will show you how to use the Mircosoft Cognitive Services APIs within fun and easy to learn scenarios.
