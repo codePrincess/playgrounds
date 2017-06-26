@@ -5,6 +5,14 @@ public class EmotionHelpers : NSObject {
     
     var preview : UIImageView!
     
+    /**
+     Method for putting an emoji with a matching emotion over each detected face in a photo.
+     
+     - parameters:
+       - photo: The photo on which faces and it's emotion shall be detected
+       - withFaceRect: If TRUE then the face rectangle is drawn into the photo
+       - completion: UIImage as new photo with added emojis for the detected emotion over each face in fitting size and with face framing rectangles if declared. Image is the same size as the original.
+     */
     public func makeEmojiFromEmotionOnPhoto (photo : UIImageView!, withFaceRect: Bool, completion: @escaping (UIImage) -> (Void)) {
         
         let manager = CognitiveServices()
