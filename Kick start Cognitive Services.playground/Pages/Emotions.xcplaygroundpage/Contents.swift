@@ -22,9 +22,10 @@ let preview = UIImageView(frame: myView.bounds)
  * experiment:
  Choose your preferred image right here or take a new one
  */
-preview.image = /*#-editable-code*/#imageLiteral(resourceName: "Giugli.png")/*#-end-editable-code*/
+preview.image = /*#-editable-code*/#imageLiteral(resourceName: "Tiffany.jpg")/*#-end-editable-code*/
 //#-hidden-code
 preview.contentMode = .scaleAspectFit
+
 
 
 let textLabel = UILabel(frame: CGRect(x: 30, y: myView.bounds.height-200, width: 350, height: 200))
@@ -133,7 +134,7 @@ func makeEmojiFromEmotionOnPhoto (_ photo : UIImageView) {
             if let _ = error {
                 print("omg something bad happened")
             } else {
-                print("seems like all went well: \(result)")
+                print("seems like all went well: \(String(describing: result))")
             }
             
             if (result?.count)! > 0 {
@@ -154,7 +155,7 @@ func makeEmojiFromEmotionOnPhoto (_ photo : UIImageView) {
  */
 makeEmojiFromEmotionOnPhoto(preview)
 //#-hidden-code
-PlaygroundPage.current.liveView = myView
+PlaygroundPage.current.liveView = preview
 //#-end-hidden-code
 
 /*:

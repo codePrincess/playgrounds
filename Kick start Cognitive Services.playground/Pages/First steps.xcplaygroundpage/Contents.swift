@@ -24,6 +24,7 @@ let myView = UIView(frame: CGRect(x: 0, y: 0, width: 450, height: 600))
 let preview = UIImageView(frame: myView.bounds)
 //#-end-hidden-code
 preview.image = /*#-editable-code*/#imageLiteral(resourceName: "beach.png")/*#-end-editable-code*/
+
 //#-hidden-code
 preview.contentMode = .scaleAspectFit
 
@@ -37,11 +38,11 @@ textLabel.text = /*#-editable-code*/"My picture is looking good!"/*#-end-editabl
 textLabel.lineBreakMode = .byWordWrapping
 textLabel.numberOfLines = 5
 //#-end-hidden-code
-textLabel.textColor = /*#-editable-code*/ #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0) /*#-end-editable-code*/
+textLabel.textColor = /*#-editable-code*/ #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1) /*#-end-editable-code*/
 //#-hidden-code
 let backgroundView = UIView(frame: CGRect(x: 0, y: myView.bounds.height-170, width: myView.bounds.width, height: 200))
 //#-end-hidden-code
-backgroundView.backgroundColor = /*#-editable-code*/ #colorLiteral(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0) /*#-end-editable-code*/
+backgroundView.backgroundColor = /*#-editable-code*/ #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1) /*#-end-editable-code*/
 backgroundView.alpha = /*#-editable-code*/ 0.7 /*#-end-editable-code*/
 //#-hidden-code
 myView.addSubview(preview)

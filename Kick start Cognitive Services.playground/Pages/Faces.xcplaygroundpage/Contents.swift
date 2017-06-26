@@ -70,7 +70,7 @@ landmarkView.backgroundColor = .clear
  * experiment:
  Choose your preferred image right here or take a new one. We tell the API that we'd like to know about different features of the face like age, gender, facialHair and glasses. Moreover we ask for a unique face identifier and facial landmarks. The face identifier can be used to later identify the person. The facial landmarks tell us things like where the eyes, the pupil, the nose and the mouth is and let us know about their dimensions.
  */
-preview.image = /*#-editable-code*/#imageLiteral(resourceName: "Aaron.jpg")/*#-end-editable-code*/
+preview.image = /*#-editable-code*/#imageLiteral(resourceName: "Photo on 26.06.17 at 09.21.jpg")/*#-end-editable-code*/
 
 //#-hidden-code
 preview.contentMode = .scaleAspectFit
@@ -100,7 +100,7 @@ func detectFaces (_ photo : UIImageView) {
             if let _ = error {
                 print("omg something bad happened")
             } else {
-                print("seems like all went well: \(result)")
+                print("seems like all went well: \(String(describing: result))")
             }
             
             if (result?.count)! > 0 {
