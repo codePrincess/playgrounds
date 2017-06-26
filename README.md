@@ -1,3 +1,5 @@
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)]() <img src="https://img.shields.io/badge/platform-iOS-blue.svg?style=flat" alt="Platform iOS" /> <a href="https://developer.apple.com/swift"><img src="https://img.shields.io/badge/swift3-compatible-4BC51D.svg?style=flat" alt="Swift 3 compatible" /></a>
+
 # Hands on Swift Playgrounds for iPad
 
 This playgrounds will show you how to code :) Not from the very beginning, but with super funny features. The first features in this playground will show you how to use the Mircosoft Cognitive Services APIs within fun and easy to learn scenarios.
