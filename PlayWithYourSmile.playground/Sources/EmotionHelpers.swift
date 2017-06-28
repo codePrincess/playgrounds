@@ -38,7 +38,7 @@ public class EmotionHelpers : NSObject {
         
     }
     
-    func emojisFor (emotion: CognitiveServicesEmotionResult) -> [String] {
+    public func emojisFor (emotion: CognitiveServicesEmotionResult) -> [String] {
         var availableEmojis = [String]()
         
         switch emotion.emotion {
@@ -82,7 +82,7 @@ public class EmotionHelpers : NSObject {
 
     }
 
-    func drawEmojisFor (emotions: [CognitiveServicesEmotionResult]?, withFaceRect: Bool, image: UIImage) -> UIImage {
+    public func drawEmojisFor (emotions: [CognitiveServicesEmotionResult]?, withFaceRect: Bool, image: UIImage) -> UIImage {
         
         var returnImage : UIImage!
         

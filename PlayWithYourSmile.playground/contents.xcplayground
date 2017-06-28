@@ -2,7 +2,9 @@
 <playground version='6.0' target-platform='ios' display-mode='raw'>
     <pages>
         <page name='The warm up'/>
-        <page name='My own smile'/>
+        <page name='My warm up'/>
         <page name='Make me smile'/>
+        <page name='My own smile'/>
+        <page name='Force a smile'/>
     </pages>
 </playground>
