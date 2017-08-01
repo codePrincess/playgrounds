@@ -8,7 +8,7 @@ public extension Array {
     }
 }
 
-extension UIColor {
+public extension UIColor {
     convenience init(hexString:String) {
         
         let hexString = hexString.trimmingCharacters(in: NSCharacterSet.whitespacesAndNewlines)
@@ -47,7 +47,7 @@ extension UIColor {
     }
 }
 
-extension UIImage {
+public extension UIImage {
     func crop( rect: CGRect) -> UIImage {
         var rect = rect
         rect.origin.x*=self.scale
@@ -60,3 +60,4 @@ extension UIImage {
         return image
     }
 }
+

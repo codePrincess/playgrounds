@@ -251,6 +251,11 @@ public class MyDoodleCanvas : UIImageView {
             
             if #available(iOS 10.0, *) {
                 
+                guard let _ = operationURL else {
+                    print("Seems like the network call failed - did you enter the Computer Vision Key in CognitiveServices.swift in line 69? :)")
+                    return
+                }
+                
                 let when = DispatchTime.now() + 2 // change 2 to desired number of seconds
                 DispatchQueue.main.asyncAfter(deadline: when) {
                     
