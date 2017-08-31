@@ -157,9 +157,9 @@ enum CognitiveServicesKeys {
 /// Caseless enum of various configuration parameters.
 /// See https://dev.projectoxford.ai/docs/services/56f91f2d778daf23d8ec6739/operations/56f91f2e778daf14a499e1fa for details
 enum CognitiveServicesConfiguration {
-    static let AnalyzeURL = "https://api.projectoxford.ai/vision/v1.0/analyze"
-    static let EmotionURL = "https://api.projectoxford.ai/emotion/v1.0/recognize"
-    static let FaceDetectURL = "https://api.projectoxford.ai/face/v1.0/detect"
+    static let AnalyzeURL = "https://westeurope.api.cognitive.microsoft.com/vision/v1.0/analyze"
+    static let EmotionURL = "https://westus.api.cognitive.microsoft.com/emotion/v1.0/recognize"
+    static let FaceDetectURL = "https://westeurope.api.cognitive.microsoft.com/face/v1.0/detect"
     static let JPEGCompressionQuality = 0.9 as CGFloat
     static let RequiredConfidence = 0.85
 }

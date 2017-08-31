@@ -15,7 +15,7 @@ guard #available(iOS 9, OSX 10.11, *) else {
     fatalError("Life? Don't talk to me about life. Here I am, brain the size of a planet, and they tell me to run a 'playground'. Call that job satisfaction? I don't.")
 }
 
-let myView = UIView(frame: CGRect(x: 0, y: 0, width: 450, height: 600))
+let myView = UIView(frame: CGRect(x: 0, y: 0, width: 600, height: 900))
 
 let preview = UIImageView(frame: myView.bounds)
 //#-end-hidden-code
@@ -23,7 +23,7 @@ let preview = UIImageView(frame: myView.bounds)
  * experiment:
  Choose your preferred image right here or take a new one
  */
-preview.image = /*#-editable-code*/#imageLiteral(resourceName: "Jan.png")/*#-end-editable-code*/
+preview.image = /*#-editable-code*/#imageLiteral(resourceName: "containers.png")/*#-end-editable-code*/
 //#-hidden-code
 preview.contentMode = .scaleAspectFit
 
@@ -71,7 +71,7 @@ func setTagsAsDescription (_ tags : [String]?) {
  * experiment:
  Every part of the description of the picture will be returned with a certain confidence. A good value is 0.85 for nice fitting results. But go a head and play around with this value and see, with what funky descriptions the "computer" may come along
  */
-showTagsForImage(preview, /*#-editable-code*/0.1/*#-end-editable-code*/)
+showTagsForImage(preview, /*#-editable-code*/0.3/*#-end-editable-code*/)
 //#-hidden-code
 PlaygroundPage.current.liveView = myView
 //#-end-hidden-code

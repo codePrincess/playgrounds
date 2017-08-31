@@ -19,7 +19,7 @@ guard #available(iOS 9, OSX 10.11, *) else {
 //#-end-hidden-code
 
 //#-hidden-code
-let myView = UIView(frame: CGRect(x: 0, y: 0, width: 450, height: 600))
+let myView = UIView(frame: CGRect(x: 0, y: 0, width: 600, height: 900))
 
 let preview = UIImageView(frame: myView.bounds)
 //#-end-hidden-code

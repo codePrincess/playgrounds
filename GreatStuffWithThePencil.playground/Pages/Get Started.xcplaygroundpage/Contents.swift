@@ -142,7 +142,7 @@ var canvasView = UIView(frame: CGRect(x: 0, y: 0, width: 450, height: 630))
 //var canvasView = UIView(frame: CGRect(x: 0, y: 0, width: 1024, height: 630))
 
 myCanvas.frame = canvasView.frame
-canvasView.addSubview((myCanvas))
+canvasView.addSubview(myCanvas)
 
 PlaygroundPage.current.liveView = canvasView
 
