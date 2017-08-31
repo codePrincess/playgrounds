@@ -9,7 +9,7 @@ The first APIs out of this huge suite will be the
 - Computer Vision API
 - Emotion API
 - Face API
-- Handwritten text recognition
+- Handwritten text recognition ( [step by step tutorial @ medium](https://medium.com/@codeprincess/the-doodling-workshop-2-9c763c21c92b) )
 
 To get going with those technologies the examples in the playground will get you kick started into the topic :)
 
