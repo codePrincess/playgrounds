@@ -106,13 +106,6 @@ public class MyDoodleCanvas : UIImageView {
             return
         }
         
-        let location = touch.location(in: self)
-        
-        minX = min(minX, Int(location.x))
-        minY = min(minY, Int(location.y))
-        maxX = max(maxX, Int(location.x))
-        maxY = max(maxY, Int(location.y))
-        
         lastTouchTimestamp = Date().timeIntervalSince1970
         
         // Draw previous image into context
@@ -142,6 +135,14 @@ public class MyDoodleCanvas : UIImageView {
         let tiltThreshold : CGFloat = pi/6
         
         if touch.type == .stylus {
+            
+            let location = touch.location(in: self)
+            
+            minX = min(minX, Int(location.x))
+            minY = min(minY, Int(location.y))
+            maxX = max(maxX, Int(location.x))
+            maxY = max(maxY, Int(location.y))
+            
             if touch.altitudeAngle < tiltThreshold {
                 lineWidth = lineWidthForShading(context: context, touch: touch)
             } else {
@@ -149,21 +150,24 @@ public class MyDoodleCanvas : UIImageView {
             }
             
             pencilTexture.setStroke()
-        } else {
+            
+            UIColor.darkGray.setStroke()
+            
+            context!.setLineWidth(lineWidth)
+            context!.setLineCap(.round)
+            
+            context?.move(to: previousLocation)
+            context?.addLine(to: location)
+            
+            // Draw the stroke
+            context!.strokePath()
+        }
+        /*else {
             lineWidth = touch.majorRadius / 2
             eraserColor.setStroke()
-        }
+        }*/
         
-        UIColor.darkGray.setStroke()
         
-        context!.setLineWidth(lineWidth)
-        context!.setLineCap(.round)
-        
-        context?.move(to: previousLocation)
-        context?.addLine(to: location)
-        
-        // Draw the stroke
-        context!.strokePath()
         
     }
     
