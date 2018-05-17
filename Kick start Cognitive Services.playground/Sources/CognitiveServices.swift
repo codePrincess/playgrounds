@@ -10,14 +10,6 @@ import Foundation
 import UIKit
 
 
-
-
-
-/// Lowest level results for both face rectangles and emotion scores. A hit represents one face and its range of emotions.
-public typealias EmotionReplyHit = Dictionary<String, AnyObject>
-/// Wrapper type for an array of hits (i.e. faces). This is the top-level JSON object.
-public typealias EmotionReplyType = Array<EmotionReplyHit>
-
 /**
  Possible values for detected emotions in images.
  */
@@ -32,27 +24,39 @@ public enum CognitiveServicesEmotion: String {
     case Surprise
 }
 
-public struct CognitiveServicesEmotionResult {
-    public let frame: CGRect
-    public let emotion: CognitiveServicesEmotion
-}
-
-/// Result closure type for emotion callbacks.
-public typealias EmotionResult = ([CognitiveServicesEmotionResult]?, NSError?) -> (Void)
-
-
 /// Result closure type for computer vision callbacks. The first parameter is an array of suitable tags for the image.
 public typealias CognitiveServicesTagsResult = ([String]?, NSError?) -> (Void)
+
+/// Possible results for cat callbacks
+public struct CustomVisionResult {
+    public var id : String?
+    public var project : String?
+    public var iteration : String?
+    public var created : String?
+    public var preditions : Dictionary<String, AnyObject>?
+    
+    init () {
+        id = ""
+        project = ""
+        iteration = ""
+        created = ""
+        preditions = nil
+    }
+}
+
+public typealias CustomVisionCallback = (String?, NSError?) -> (Void)
 
 /// Possible results for faces callbacks
 public struct CognitiveServicesFacesResult {
     public var frame: CGRect
     public var faceId : String?
     public var landmarks: [CGPoint]?
-    public var age : Int
+    public var age : Float
     public var gender : String
     public var facialHair : String?
     public var glasses : String?
+    public var emotion : CognitiveServicesEmotion?
+    public var makeup : String?
     
     init () {
         frame = CGRect(x: 0, y: 0, width: 0, height: 0)
@@ -62,106 +66,124 @@ public struct CognitiveServicesFacesResult {
         gender = ""
         facialHair = ""
         glasses = ""
+        emotion = CognitiveServicesEmotion.Neutral
+        makeup = ""
     }
 }
 /// Result closure type for faces results
 public typealias FacesResult = ([CognitiveServicesFacesResult]?, NSError?) -> (Void)
 
-
 /// Fill in your API key here after getting it from https://www.microsoft.com/cognitive-services/en-US/subscriptions
-let CognitiveServicesComputerVisionAPIKey = "4d761377672d4b3ca55fe17274c41f87"
-let CognitiveServicesEmotionAPIKey = "d93acbbc933743f8971d79c9ecdc2504"
-let CognitiveServicesFacesAPIKey = "55b65bfb4fdf4a1ebeed7239a949bb74"
+let CognitiveServicesComputerVisionAPIKey = "xxx"
+let CognitiveServicesFacesAPIKey = "xxx"
+let CustomVision_instanceID = "xxx"
+let CustomVision_iterationID = "xxx"
+let CustomVision_predictionKey = "xxx"
 
 /// Caseless enum of available HTTP methods.
 /// See https://dev.projectoxford.ai/docs/services/56f91f2d778daf23d8ec6739/operations/56f91f2e778daf14a499e1fa for details
-enum CognitiveServicesHTTPMethod {
-    static let POST = "POST"
+public enum CognitiveServicesHTTPMethod {
+    public static let POST = "POST"
 }
 
 /// Caseless enum of available HTTP header keys.
 /// See https://dev.projectoxford.ai/docs/services/56f91f2d778daf23d8ec6739/operations/56f91f2e778daf14a499e1fa for details
-enum CognitiveServicesHTTPHeader {
-    static let SubscriptionKey = "Ocp-Apim-Subscription-Key"
-    static let ContentType = "Content-Type"
+public enum CognitiveServicesHTTPHeader {
+    public static let PredictionKey = "Prediction-Key"
+    public static let SubscriptionKey = "Ocp-Apim-Subscription-Key"
+    public static let ContentType = "Content-Type"
 }
 
 /// Caseless enum of available HTTP parameters.
 /// See https://dev.projectoxford.ai/docs/services/56f91f2d778daf23d8ec6739/operations/56f91f2e778daf14a499e1fa for details
-enum CognitiveServicesHTTPParameters {
-    static let VisualFeatures = "visualFeatures"
-    static let Details = "details"
-    static let ReturnFaceId = "returnFaceId"
-    static let ReturnFaceLandmarks = "returnFaceLandmarks"
-    static let ReturnFaceAttributes = "returnFaceAttributes"
+public enum CognitiveServicesHTTPParameters {
+    public static let VisualFeatures = "visualFeatures"
+    public static let Details = "details"
+    public static let ReturnFaceId = "returnFaceId"
+    public static let ReturnFaceLandmarks = "returnFaceLandmarks"
+    public static let ReturnFaceAttributes = "returnFaceAttributes"
 }
 
 /// Caseless enum of available HTTP content types.
 /// See https://dev.projectoxford.ai/docs/services/56f91f2d778daf23d8ec6739/operations/56f91f2e778daf14a499e1fa for details
-enum CognitiveServicesHTTPContentType {
-    static let JSON = "application/json"
-    static let OctetStream = "application/octet-stream"
-    static let FormData = "multipart/form-data"
+public enum CognitiveServicesHTTPContentType {
+    public static let JSON = "application/json"
+    public static let OctetStream = "application/octet-stream"
+    public static let FormData = "multipart/form-data"
 }
 
 /// Caseless enum of available visual features to analyse the image for.
 /// See https://dev.projectoxford.ai/docs/services/56f91f2d778daf23d8ec6739/operations/56f91f2e778daf14a499e1fa for details
-enum CognitiveServicesVisualFeatures {
-    static let Categories = "Categories"
-    static let Tags = "Tags"
-    static let Description = "Description"
-    static let Faces = "Faces"
-    static let ImageType = "ImageType"
-    static let Color = "Color"
-    static let Adult = "Adult"
+public enum CognitiveServicesVisualFeatures {
+    public static let Categories = "Categories"
+    public static let Tags = "Tags"
+    public static let Description = "Description"
+    public static let Faces = "Faces"
+    public static let ImageType = "ImageType"
+    public static let Color = "Color"
+    public static let Adult = "Adult"
 }
 
 ///Caseless enum of available face attributes returned for a sigle face
-enum CognitiveServicesFaceAttributes {
-    static let Age = "age"
-    static let Gender = "gender"
-    static let Smile = "smile"
-    static let FacialHair = "facialHair"
-    static let Glasses = "glasses"
-    static let HeadPose = "headPose"
+public enum CognitiveServicesFaceAttributes {
+    public static let Age = "age"
+    public static let Gender = "gender"
+    public static let Smile = "smile"
+    public static let FacialHair = "facialHair"
+    public static let Glasses = "glasses"
+    public static let HeadPose = "headPose"
+    public static let Emotion = "emotion"
+    public static let Hair = "hair"
+    public static let Makeup = "makeup"
+    public static let Occlusion = "occlusion"
+    public static let Accessories = "accessories"
+    public static let Blur = "blur"
+    public static let Exposure = "exposure"
+    public static let Noise = "noise"
 }
 
 /// Caseless enum of available JSON dictionary keys for the service's reply.
 /// See https://dev.projectoxford.ai/docs/services/56f91f2d778daf23d8ec6739/operations/56f91f2e778daf14a499e1fa and https://dev.projectoxford.ai/docs/services/5639d931ca73072154c1ce89/operations/563b31ea778daf121cc3a5fa for details
-enum CognitiveServicesKeys {
-    static let Tags = "tags"
-    static let Name = "name"
-    static let Confidence = "confidence"
-    static let FaceRectangle = "faceRectangle"
-    static let FaceAttributes = "faceAttributes"
-    static let FaceLandmarks = "faceLandmarks"
-    static let FaceIdentifier = "faceId"
-    static let Scores = "scores"
-    static let Height = "height"
-    static let Left = "left"
-    static let Top = "top"
-    static let Width = "width"
-    static let Anger = "anger"
-    static let Contempt = "contempt"
-    static let Disgust = "disgust"
-    static let Fear = "fear"
-    static let Happiness = "happiness"
-    static let Neutral = "neutral"
-    static let Sadness = "sadness"
-    static let Surprise = "surprise"
-    static let Mustache = "mustache"
-    static let Beard = "beard"
-    static let Sideburns = "sideBurns"
+public enum CognitiveServicesKeys {
+    public static let Tags = "tags"
+    public static let Name = "name"
+    public static let Confidence = "confidence"
+    public static let FaceRectangle = "faceRectangle"
+    public static let FaceAttributes = "faceAttributes"
+    public static let FaceLandmarks = "faceLandmarks"
+    public static let FaceIdentifier = "faceId"
+    public static let Scores = "scores"
+    public static let Height = "height"
+    public static let Left = "left"
+    public static let Top = "top"
+    public static let Width = "width"
+    public static let Emotion = "emotion"
+    public static let Anger = "anger"
+    public static let Contempt = "contempt"
+    public static let Disgust = "disgust"
+    public static let Fear = "fear"
+    public static let Happiness = "happiness"
+    public static let Neutral = "neutral"
+    public static let Sadness = "sadness"
+    public static let Surprise = "surprise"
+    public static let Mustache = "mustache"
+    public static let Beard = "beard"
+    public static let Sideburns = "sideBurns"
+    public static let EyeMakeup = "eyeMakeup"
+    public static let LipMakeup = "lipMakeup"
+    public static let Predictions = "predictions"
+    public static let Probability = "probability"
+    public static let PredictionTagName = "tagName"
+    
 }
 
 /// Caseless enum of various configuration parameters.
 /// See https://dev.projectoxford.ai/docs/services/56f91f2d778daf23d8ec6739/operations/56f91f2e778daf14a499e1fa for details
-enum CognitiveServicesConfiguration {
-    static let AnalyzeURL = "https://westeurope.api.cognitive.microsoft.com/vision/v1.0/analyze"
-    static let EmotionURL = "https://westus.api.cognitive.microsoft.com/emotion/v1.0/recognize"
-    static let FaceDetectURL = "https://westeurope.api.cognitive.microsoft.com/face/v1.0/detect"
-    static let JPEGCompressionQuality = 0.9 as CGFloat
-    static let RequiredConfidence = 0.85
+public enum CognitiveServicesConfiguration {
+    public static let AnalyzeURL = "https://westeurope.api.cognitive.microsoft.com/vision/v1.0/analyze"
+    public static let FaceDetectURL = "https://westeurope.api.cognitive.microsoft.com/face/v1.0/detect"
+    public static let JPEGCompressionQuality = 0.9 as CGFloat
+    public static let RequiredConfidence = 0.85
 }
 
 
@@ -185,7 +207,7 @@ public class CognitiveServices: NSObject {
         urlString += "?\(CognitiveServicesHTTPParameters.VisualFeatures)=\("\(CognitiveServicesVisualFeatures.Tags)")"
         
         let url = URL(string: urlString)
-        print("calling the following URL: \(url)")
+        print("calling the following URL: \(url!)")
         let request = NSMutableURLRequest(url: url!)
         
         // The subscription key is always added as an HTTP header field.
@@ -248,7 +270,7 @@ public class CognitiveServices: NSObject {
         task.resume()
     }
     
-
+    
     
     
     
@@ -258,17 +280,20 @@ public class CognitiveServices: NSObject {
      - parameter image:      The image to analyse.
      - parameter completion: Callback closure.
      */
-    public func retrievePlausibleEmotionsForImage(_ image: UIImage, completion: @escaping EmotionResult) {
-        assert(CognitiveServicesEmotionAPIKey.characters.count > 0, "Please set the value of the API key variable (CognitiveServicesEmotionAPIKey) before attempting to use the application.")
+    public func retrievePlausibleEmotionsForImage(_ image: UIImage, completion: FacesResult?) {
+        assert(CognitiveServicesFacesAPIKey.characters.count > 0, "Please set the value of the API key variable (CognitiveServicesFacesAPIKey) before attempting to use the application.")
         
         print("i got a key - let's do this")
         
-        let url = URL(string: CognitiveServicesConfiguration.EmotionURL)
-        print("calling the following URL: \(url)")
+        var urlString = CognitiveServicesConfiguration.FaceDetectURL
+        urlString += "?\(CognitiveServicesHTTPParameters.ReturnFaceId)=true&\(CognitiveServicesHTTPParameters.ReturnFaceLandmarks)=true&\(CognitiveServicesHTTPParameters.ReturnFaceAttributes)=age,gender,facialHair,glasses,emotion,makeup"
+        
+        let url = URL(string: urlString)
+        print("calling the following URL: \(url!)")
         let request = NSMutableURLRequest(url: url!)
         
         // The subscription key is always added as an HTTP header field.
-        request.addValue(CognitiveServicesEmotionAPIKey, forHTTPHeaderField: CognitiveServicesHTTPHeader.SubscriptionKey)
+        request.addValue(CognitiveServicesFacesAPIKey, forHTTPHeaderField: CognitiveServicesHTTPHeader.SubscriptionKey)
         // We need to specify that we're sending the image as binary data, since it's possible to supply a JSON-wrapped URL instead.
         request.addValue(CognitiveServicesHTTPContentType.OctetStream, forHTTPHeaderField: CognitiveServicesHTTPHeader.ContentType)
         
@@ -287,7 +312,7 @@ public class CognitiveServices: NSObject {
             
             if let error = error {
                 // In case of an error, handle it immediately and exit without doing anything else.
-                completion(nil, error as NSError?)
+                completion!(nil, error as NSError?)
                 return
             }
             
@@ -296,29 +321,29 @@ public class CognitiveServices: NSObject {
                 do {
                     let collectionObject = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments)
                     print("the data: \(collectionObject)")
-                    var result = [CognitiveServicesEmotionResult]()
                     
-                    if let array = collectionObject as? EmotionReplyType {
-                        // This is an array of hits, i.e. faces with associated emotions. We iterate through it and
-                        // try to get a complete set of coordinates and the most suitable emotion rating for every one.
-                        for hit in array {
-                            // See if all necessary coordinates for a rectangle are there and create a native data type
-                            // with the information.
-                            var resolvedFrame: CGRect? = nil
-                            if let
-                                frame = hit[CognitiveServicesKeys.FaceRectangle] as? Dictionary<String, Int>,
-                                let top = frame[CognitiveServicesKeys.Top],
-                                let left = frame[CognitiveServicesKeys.Left],
-                                let height = frame[CognitiveServicesKeys.Height],
-                                let width = frame[CognitiveServicesKeys.Width]
-                            {
-                                resolvedFrame = CGRect(x: left, y: top, width: width, height: height)
-                            }
+                    var resultArray = [CognitiveServicesFacesResult]()
+                    var result = CognitiveServicesFacesResult()
+                    
+                    let allData = collectionObject as? [Dictionary<String, AnyObject>]
+                    
+                    if let dictionary = allData?[0] {
+                        
+                        let rawFaceRectangle = dictionary[CognitiveServicesKeys.FaceRectangle]
+                        if let rect = rawFaceRectangle as? Dictionary<String, NSNumber> {
+                            result.frame = CGRect(
+                                x:      CGFloat(rect[CognitiveServicesKeys.Left]!),
+                                y:      CGFloat(rect[CognitiveServicesKeys.Top]!),
+                                width:  CGFloat(rect[CognitiveServicesKeys.Width]!),
+                                height: CGFloat(rect[CognitiveServicesKeys.Height]!)
+                            )
+                        }
+                        
+                        let rawAttributes = dictionary[CognitiveServicesKeys.FaceAttributes]
+                        if let attributes = rawAttributes as? Dictionary<String, AnyObject> {
                             
-                            // Find all the available emotions and see which is the highest scoring one.
                             var emotion: CognitiveServicesEmotion? = nil
-                            if let
-                                emotions = hit[CognitiveServicesKeys.Scores] as? Dictionary<String, Double>,
+                            if  let emotions = attributes[CognitiveServicesKeys.Emotion] as? Dictionary<String, Double>,
                                 let anger = emotions[CognitiveServicesKeys.Anger],
                                 let contempt = emotions[CognitiveServicesKeys.Contempt],
                                 let disgust = emotions[CognitiveServicesKeys.Disgust],
@@ -328,6 +353,8 @@ public class CognitiveServices: NSObject {
                                 let sadness = emotions[CognitiveServicesKeys.Sadness],
                                 let surprise = emotions[CognitiveServicesKeys.Surprise]
                             {
+                                print("emotions: \(emotions)")
+                                
                                 var maximumValue = 0.0
                                 for value in [anger, contempt, disgust, fear, happiness, neutral, sadness, surprise] {
                                     if value <= maximumValue {
@@ -354,25 +381,24 @@ public class CognitiveServices: NSObject {
                                 } else if surprise == maximumValue {
                                     emotion = .Surprise
                                 }
-                            }
-                            
-                            // If we have both a rectangle and an emotion, we have enough information to store this as
-                            // a result set and eventually return it to the caller.
-                            if let frame = resolvedFrame, let emotion = emotion {
-                                result.append(CognitiveServicesEmotionResult(frame: frame, emotion: emotion))
+                                
+                                result.emotion = emotion
+                                
                             }
                         }
                     }
                     
-                    completion(result, nil)
+                    resultArray.append(result)
+                    
+                    completion!(resultArray, nil)
                     return
                 }
                 catch _ {
-                    completion(nil, error as? NSError)
+                    completion!(nil, error as NSError?)
                     return
                 }
             } else {
-                completion(nil, nil)
+                completion!(nil, nil)
                 return
             }
         }
@@ -380,7 +406,7 @@ public class CognitiveServices: NSObject {
         task.resume()
     }
     
-
+    
     /**
      Retrieves face rectangles and features of faces within a picture.
      
@@ -396,7 +422,7 @@ public class CognitiveServices: NSObject {
         urlString += "?\(CognitiveServicesHTTPParameters.ReturnFaceId)=true&\(CognitiveServicesHTTPParameters.ReturnFaceLandmarks)=true&\(CognitiveServicesHTTPParameters.ReturnFaceAttributes)=age,gender,facialHair,glasses"
         
         let url = URL(string: urlString)
-        print("calling the following URL: \(url)")
+        print("calling the following URL: \(url!)")
         let request = NSMutableURLRequest(url: url!)
         
         request.addValue(CognitiveServicesFacesAPIKey, forHTTPHeaderField: CognitiveServicesHTTPHeader.SubscriptionKey)
@@ -430,11 +456,11 @@ public class CognitiveServices: NSObject {
                     if let dictionary = allData?[0] {
                         
                         let rawFaceRectangle = dictionary[CognitiveServicesKeys.FaceRectangle]
-                        if let rect = rawFaceRectangle as? Dictionary<String, Int> {
+                        if let rect = rawFaceRectangle as? Dictionary<String, NSNumber> {
                             result.frame = CGRect(
-                                x: CGFloat(rect[CognitiveServicesKeys.Left]!),
-                                y: CGFloat(rect[CognitiveServicesKeys.Top]!),
-                                width: CGFloat(rect[CognitiveServicesKeys.Width]!),
+                                x:      CGFloat(rect[CognitiveServicesKeys.Left]!),
+                                y:      CGFloat(rect[CognitiveServicesKeys.Top]!),
+                                width:  CGFloat(rect[CognitiveServicesKeys.Width]!),
                                 height: CGFloat(rect[CognitiveServicesKeys.Height]!)
                             )
                         }
@@ -451,7 +477,7 @@ public class CognitiveServices: NSObject {
                         
                         let rawAttributes = dictionary[CognitiveServicesKeys.FaceAttributes]
                         if let attributes = rawAttributes as? Dictionary<String, AnyObject> {
-                            result.age = attributes[CognitiveServicesFaceAttributes.Age] as! Int
+                            result.age = attributes[CognitiveServicesFaceAttributes.Age] as! Float
                             result.gender = attributes[CognitiveServicesFaceAttributes.Gender] as! String
                             
                             if let facialHair = attributes[CognitiveServicesFaceAttributes.FacialHair] as? Dictionary<String, Double> {
@@ -462,11 +488,13 @@ public class CognitiveServices: NSObject {
                                         result.facialHair = hair.key
                                     }
                                 }
+                                
                             }
                             
                             if let glasses = attributes[CognitiveServicesFaceAttributes.Glasses] as? String {
                                 result.glasses = glasses
                             }
+                            
                         }
                         
                         result.faceId = dictionary[CognitiveServicesKeys.FaceIdentifier] as? String
@@ -490,5 +518,81 @@ public class CognitiveServices: NSObject {
         }
         task.resume()
     }
-
+    
+    
+    /*https://southcentralus.api.cognitive.microsoft.com/customvision/v2.0/Prediction/3ff8662d-5c31-4cac-adba-56a9e39d8029/image?iterationId=cdb0cb47-d39f-4241-93e7-5ea102cac513*/
+    /**
+     Retrieves prediction from custom trained vision service - is the cat grumpy or not? :)
+     - parameter image:      The image to analyse.
+     - parameter completion: Callback closure.
+     */
+    public func retrieveCatPredictionForImage(_ image: UIImage, completion: CustomVisionCallback?) {
+        
+        let CustomVision_baseURL = "https://southcentralus.api.cognitive.microsoft.com/customvision/v2.0/Prediction/\(CustomVision_instanceID)/image?iterationId=\(CustomVision_iterationID)"
+        
+        let url = URL(string: CustomVision_baseURL)
+        print("calling the following URL: \(url!)")
+        let request = NSMutableURLRequest(url: url!)
+        
+        request.addValue(CustomVision_predictionKey, forHTTPHeaderField: CognitiveServicesHTTPHeader.PredictionKey)
+        request.addValue(CognitiveServicesHTTPContentType.OctetStream, forHTTPHeaderField: CognitiveServicesHTTPHeader.ContentType)
+        
+        let requestData = UIImageJPEGRepresentation(image, 0.9)
+        request.httpBody = requestData
+        request.httpMethod = CognitiveServicesHTTPMethod.POST
+        
+        print(request)
+        
+        let session = URLSession.shared
+        let task = session.dataTask(with: request as URLRequest) { (data, response, error) in
+            print("executed task")
+            
+            if let error = error {
+                completion!(nil, error as NSError?)
+                return
+            }
+            
+            if let data = data {
+                print("aaand got data! -> \(data)")
+                do {
+                    let collectionObject = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments)
+                    print("the data: \(collectionObject)")
+                    
+                    let allData = collectionObject as! Dictionary<String, AnyObject>
+                    let thePredictions = allData[CognitiveServicesKeys.Predictions] as? Array<Dictionary<String, AnyObject>>
+                    print("predictions --> \(String(describing: thePredictions))")
+                    if let predictions = thePredictions {
+                        var value = 0.0
+                        var tag = ""
+                        for prediction in predictions {
+                            let predictionVal = prediction[CognitiveServicesKeys.Probability] as! Double
+                            let name = prediction[CognitiveServicesKeys.PredictionTagName] as! String
+                            if predictionVal > value {
+                                value = predictionVal
+                                tag = name
+                            }
+                        }
+                        print("the cat is --> \(tag)")
+                        completion!(tag, nil)
+                        return
+                    } else {
+                        completion!(nil, nil)
+                    }
+                    
+                    
+                } catch _ {
+                    completion!(nil, error as NSError?)
+                    return
+                }
+            } else {
+                completion!(nil, nil)
+                return
+            }
+        }
+        task.resume()
+        
+    }
+    
+    
+    
 }

@@ -128,13 +128,12 @@ public class MyDoodleCanvas : UIImageView {
     
     func drawStroke(context: CGContext?, touch: UITouch) {
         let previousLocation = touch.previousLocation(in: self)
-        let location = touch.location(in: self)
         
         // Calculate line width for drawing stroke
         var lineWidth : CGFloat = 1.0
         let tiltThreshold : CGFloat = pi/6
         
-        if touch.type == .stylus {
+        //if touch.type == .stylus {
             
             let location = touch.location(in: self)
             
@@ -161,7 +160,7 @@ public class MyDoodleCanvas : UIImageView {
             
             // Draw the stroke
             context!.strokePath()
-        }
+        //}
         /*else {
             lineWidth = touch.majorRadius / 2
             eraserColor.setStroke()

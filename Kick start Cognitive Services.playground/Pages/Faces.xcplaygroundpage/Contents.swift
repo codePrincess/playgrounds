@@ -59,7 +59,7 @@ class MyLandmarkView : UIView {
     }
 }
 
-let myView = UIView(frame: CGRect(x: 0, y: 0, width: 600, height: 900))
+let myView = UIView(frame: CGRect(x: 10, y: 10, width: 450, height: 600))
 
 let preview = UIImageView(frame: myView.bounds)
 let landmarkView = MyLandmarkView(frame: myView.bounds)
@@ -70,7 +70,7 @@ landmarkView.backgroundColor = .clear
  * experiment:
  Choose your preferred image right here or take a new one. We tell the API that we'd like to know about different features of the face like age, gender, facialHair and glasses. Moreover we ask for a unique face identifier and facial landmarks. The face identifier can be used to later identify the person. The facial landmarks tell us things like where the eyes, the pupil, the nose and the mouth is and let us know about their dimensions.
  */
-preview.image = /*#-editable-code*/#imageLiteral(resourceName: "Les.jpg")/*#-end-editable-code*/
+preview.image = /*#-editable-code*/#imageLiteral(resourceName: "Aaron.jpg")/*#-end-editable-code*/
 
 //#-hidden-code
 preview.contentMode = .scaleAspectFit
@@ -149,5 +149,5 @@ PlaygroundPage.current.liveView = myView
 
 /*:
  * callout(What did we learn?):
- The wonderful thing about this **Face API** is especially the retrieval of the landmarks of the face. We can do fun things with it, like pinning things into the face :D But we can identify this face, as soon as we added it to a PersonGroup, on other images. So we don't have to analyse the image itself and compare it to other faces to "find" persons on images. We can let the Face API do the work for us. Just have a look at the [Faces documentation](https://www.microsoft.com/cognitive-services/en-us/face-api/documentation/overview) and the way how to use [Persons and PersonGroups](https://www.microsoft.com/cognitive-services/en-us/face-api/documentation/face-api-how-to-topics/howtoidentifyfacesinimage) */
+ The wonderful thing about this **Face API** is especially the retrieval of the landmarks of the face. We can do fun things with it, like pinning things into the face :D But we can identify this face, as soon as we added it to a PersonGroup, on other images. So we don't have to analyse the image itself and compare it to other faces to "find" persons on images. We can let the Face API do the work for us. Just have a look at the [Faces documentation](https://azure.microsoft.com/en-us/services/cognitive-services/face/) and the way how to use [Persons and PersonGroups](https://docs.microsoft.com/en-us/azure/cognitive-services/face/face-api-how-to-topics/howtoidentifyfacesinimage) */
 

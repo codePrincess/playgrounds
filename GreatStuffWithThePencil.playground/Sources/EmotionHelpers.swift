@@ -109,7 +109,7 @@ public class EmotionHelpers : NSObject {
                     }
                     
                     let font = UIFont.systemFont(ofSize: CGFloat(actualFontSize))
-                    let calculatedSize = string.size(attributes: [NSFontAttributeName: font])
+                    let calculatedSize = string.size(withAttributes: [NSAttributedStringKey.font: font])
                     
                     if calculatedSize.width > maximumSize.width {
                         actualFontSize -= stepping
@@ -120,7 +120,7 @@ public class EmotionHelpers : NSObject {
                 } while true
                 
                 let font = UIFont.systemFont(ofSize: CGFloat(actualFontSize))
-                string.draw(in: result.frame, withAttributes: [NSFontAttributeName: font])
+                string.draw(in: result.frame, withAttributes: [NSAttributedStringKey.font: font])
                 
                 if withFaceRect {
                     let context = UIGraphicsGetCurrentContext()

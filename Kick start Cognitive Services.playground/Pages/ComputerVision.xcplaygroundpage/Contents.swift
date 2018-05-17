@@ -15,7 +15,7 @@ guard #available(iOS 9, OSX 10.11, *) else {
     fatalError("Life? Don't talk to me about life. Here I am, brain the size of a planet, and they tell me to run a 'playground'. Call that job satisfaction? I don't.")
 }
 
-let myView = UIView(frame: CGRect(x: 0, y: 0, width: 600, height: 900))
+let myView = UIView(frame: CGRect(x: 0, y: 0, width: 450, height: 600))
 
 let preview = UIImageView(frame: myView.bounds)
 //#-end-hidden-code
@@ -46,9 +46,9 @@ func showTagsForImage (_ photo : UIImageView, _ confidence : Double) {
     manager.retrievePlausibleTagsForImage(photo.image!, confidence) { (result, error) -> (Void) in
         DispatchQueue.main.async(execute: {
             if let _ = error {
-                print("omg something bad happened: \(error)")
+                print("omg something bad happened: \(String(describing: error))")
             } else {
-                print("seems like all went well: \(result)")
+                print("seems like all went well: \(String(describing: result))")
             }
             setTagsAsDescription(result)
         })
@@ -57,7 +57,7 @@ func showTagsForImage (_ photo : UIImageView, _ confidence : Double) {
 
 func setTagsAsDescription (_ tags : [String]?) {
     if (tags?.count)! > 0 {
-        textLabel.text = ""
+        textLabel.text = "Look what I detected:\n"
         for tag in tags! {
             textLabel.text = textLabel.text! + "#" + tag + " "
         }
@@ -71,7 +71,7 @@ func setTagsAsDescription (_ tags : [String]?) {
  * experiment:
  Every part of the description of the picture will be returned with a certain confidence. A good value is 0.85 for nice fitting results. But go a head and play around with this value and see, with what funky descriptions the "computer" may come along
  */
-showTagsForImage(preview, /*#-editable-code*/0.3/*#-end-editable-code*/)
+showTagsForImage(preview, /*#-editable-code*/0.1/*#-end-editable-code*/)
 //#-hidden-code
 PlaygroundPage.current.liveView = myView
 //#-end-hidden-code
@@ -81,5 +81,5 @@ PlaygroundPage.current.liveView = myView
  Wonderful! So you just called your first API from the Cognitive Services Suite. The Computer Vision API. If you want to have a detailed look at the documentation - where you can find further examples - visit the dedicated [Computer Vision documentation](https://www.microsoft.com/cognitive-services/en-us/computer-vision-api).
 */
 
-//: Enough of just describing photos. Let's catch a smile and let the API know! Let's rock on and continue by [using the Emotion API](@next)!
+//: Enough of just describing photos. Let's catch a face and let the API know! Let's rock on and continue by [using the FACE API](@next)!
 

@@ -1,8 +1,8 @@
 /*:
  # Am I smiling - YES I AM!
  
- After successfully managing the ComputerVision API, we will dive a little bit further into the **COGNITIVE SERVICES**.
- With the Emotion API we can detect - yes - emotions on human faces. What the API returns is not just the motion, but additionally the rectangle where this face is located at the picuture. Awesome, right?
+ After successfully managing the FACE API, we will dive a little bit further into it.
+ Once upon a time there was a dedicated EMOTION API in place, which could detect... emotions in images and videos. As human emotions are very much related to faces, the two APIs got merged together. And that's why we are having a look into the emotion data for detected faces now! Awesome, right?
  */
 
 //#-hidden-code
@@ -28,10 +28,12 @@ preview.contentMode = .scaleAspectFit
 
 
 
-let textLabel = UILabel(frame: CGRect(x: 30, y: myView.bounds.height-200, width: 350, height: 200))
+let textLabel = UILabel(frame: CGRect(x: 30, y: myView.bounds.height-150, width: 350, height: 150))
 textLabel.lineBreakMode = .byWordWrapping
 textLabel.numberOfLines = 5
-textLabel.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+textLabel.textColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
+textLabel.text = "Wow, is there somthing here?"
+
 
 let backgroundView = UIView(frame: CGRect(x: 0, y: myView.bounds.height-170, width: myView.bounds.width, height: 200))
 backgroundView.backgroundColor = #colorLiteral(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
@@ -40,8 +42,9 @@ backgroundView.alpha = 0.7
 myView.addSubview(preview)
 myView.addSubview(backgroundView)
 myView.addSubview(textLabel)
+myView.bringSubview(toFront: textLabel)
 
-var emojis: [CognitiveServicesEmotionResult]? = nil {
+var emojis: [CognitiveServicesFacesResult]? = nil {
 didSet {
     if preview.image == nil {
         return
@@ -53,7 +56,7 @@ didSet {
         
         for result in results {
             var availableEmojis = [String]()
-            switch result.emotion {
+            switch result.emotion as CognitiveServicesEmotion! {
             case .Anger:
                 availableEmojis.append("😡")
                 availableEmojis.append("😠")
@@ -88,6 +91,10 @@ didSet {
                 availableEmojis.append("😳")
                 availableEmojis.append("😮")
                 availableEmojis.append("😲")
+            case .none:
+                break
+            case .some(_):
+                break
             }
             
             let emoji = availableEmojis.randomElement()
@@ -105,7 +112,7 @@ didSet {
                 }
                 
                 let font = UIFont.systemFont(ofSize: CGFloat(actualFontSize))
-                let calculatedSize = string.size(attributes: 	[NSFontAttributeName: font])
+                let calculatedSize = string.size(withAttributes: [NSAttributedStringKey.font: font])
                 
                 if calculatedSize.width > maximumSize.width {
                     actualFontSize -= stepping
@@ -115,7 +122,7 @@ didSet {
             } while true
             
             let font = UIFont.systemFont(ofSize: CGFloat(actualFontSize))
-            string.draw(in: result.frame, withAttributes: [NSFontAttributeName: font])
+            string.draw(in: result.frame, withAttributes: [NSAttributedStringKey.font: font])
         }
         
         preview.image = UIGraphicsGetImageFromCurrentImageContext()
@@ -134,16 +141,17 @@ func makeEmojiFromEmotionOnPhoto (_ photo : UIImageView) {
             if let _ = error {
                 print("omg something bad happened")
             } else {
-                print("seems like all went well: \(String(describing: result))")
+                print("seems like all went well: \(String(describing: result!))")
             }
             
+            emojis = result
+            
             if (result?.count)! > 0 {
-                textLabel.text = "1..2.. Emoji!\n\((result?.count)!) emotions detected"
+                textLabel.text = "1..2.. Emoji!\n\((result?.count)!) emotion(s) detected"
             } else {
                 textLabel.text = "Seems like no emotions were detected :("
             }
             
-            emojis = result
         })
     }
 }
@@ -151,16 +159,16 @@ func makeEmojiFromEmotionOnPhoto (_ photo : UIImageView) {
 //#-end-hidden-code
 /*:
  * experiment:
- What the API get from us is really just the image. In return we will get an array of emotion results, which contain a rectangle of the face position and size in the picture and certainties of the different emotions - there are 9 of them (neutral, happy, sad, angry, ...). The emotion with the highest certainty wins and will be mapped to an emoji by our app.
+ What the API gets from us is really just the image. In return we will retrieve an array of emotion results, which contains the certainties of the eight possible emotions (neutral, happiness, sadness, anger, ...). What we will do right now is to get the emotion with the highest score and map it to a suitable emoji... to pin it on the person's face :)
  */
 makeEmojiFromEmotionOnPhoto(preview)
 //#-hidden-code
-PlaygroundPage.current.liveView = preview
+PlaygroundPage.current.liveView = myView
 //#-end-hidden-code
 
 /*:
  * callout(What did we learn?):
- Wonderful! So you just called your second API from the Cognitive Services Suite. The Emotion API. If you want to have a detailed look at the documentation - where you can find further examples - visit the dedicated [Emotion documentation](https://www.microsoft.com/cognitive-services/en-us/emotion-api/documentation) and the [Emotion API definition](https://dev.projectoxford.ai/docs/services/5639d931ca73072154c1ce89/operations/563b31ea778daf121cc3a5fa) */
+ Wonderful! So you just called the emotion endooint from the Cognitive Services FACE API. If you want to have a detailed look at the documentation - where you can find further examples - visit the dedicated [FACE API documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/face/overview) and the [FACE API definition](https://westus.dev.cognitive.microsoft.com/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395236) */
 
-//: Enough of just dealing with smiles now! Let's see what faces we are able to detect - and what we can say about age and gender :) Let's get going with [using the Face API](@next)!
+//: Enough of just dealing with smiles! Let's see if we can find out smiles of cats. Is it possible, to distinguish a smiling cat from a grumpy one? Let's get going by [using the Custom Vision API](@next)!
 
