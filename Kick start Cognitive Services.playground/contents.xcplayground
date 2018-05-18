@@ -6,5 +6,6 @@
         <page name='Faces'/>
         <page name='Emotions'/>
         <page name='CustomVision'/>
+        <page name='CoreMLVision'/>
     </pages>
 </playground>
