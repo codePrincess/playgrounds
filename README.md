@@ -9,6 +9,8 @@ The first APIs out of this huge suite will be the
 - Computer Vision API
 - Emotion API
 - Face API
+- Custom Vision Service with API usage
+- CoreML predictions with own trained model ([an easy guide for getting started @ medium](https://medium.com/@codeprincess/your-cat-is-not-grumpy-3e5353b62a67) )
 - Handwritten text recognition ( [step by step tutorial @ medium](https://medium.com/@codeprincess/the-doodling-workshop-2-9c763c21c92b) )
 - use storyboards in Playground Books
 
