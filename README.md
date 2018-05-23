@@ -4,6 +4,10 @@
 
 This playgrounds will show you how to code :) Not from the very beginning, but with super funny features. The first features in this playground will show you how to use the Mircosoft Cognitive Services APIs within fun and easy to learn scenarios.
 
+<p align="center">
+<img src="https://drive.google.com/uc?id=1MydCzpsf95CoG_2Y0igK5_58uVYeigPm" width="800">
+</p>
+
 ## What specific APIs will I learn?
 The first APIs out of this huge suite will be the
 - Computer Vision API
