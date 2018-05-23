@@ -10,9 +10,6 @@ public class CatVisionLogic : NSObject {
     public func initRequest(label: UILabel?) {
         do {
             textLabel = label
-            // Load the Custom Vision model.
-            // To add a new model, drag it to the Xcode project browser making sure that the "Target Membership" is checked.
-            // Then update the following line with the name of your new model.
             let model = try VNCoreMLModel(for: catmoodprediction().model)
             let request = VNCoreMLRequest(model: model, completionHandler: self.handleClassification)
             classificationRequest = [ request ]
@@ -27,7 +24,7 @@ public class CatVisionLogic : NSObject {
             let classifierRequestHandler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer!, options: [:])
             try classifierRequestHandler.perform(classificationRequest!)
         } catch {
-            print(error)
+            print("something went terribly wrong during classification")
         }
     }
     

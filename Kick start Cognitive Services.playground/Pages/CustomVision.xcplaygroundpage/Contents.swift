@@ -30,9 +30,10 @@ preview.contentMode = .scaleAspectFit
 let textLabel = UILabel(frame: CGRect(x: 30, y: myView.bounds.height-100, width: 350, height: 100))
 textLabel.lineBreakMode = .byWordWrapping
 textLabel.numberOfLines = 5
+//#-end-hidden-code
 textLabel.textColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
 textLabel.text = "Wanna find out if your cat is happy or grumpy?"
-
+//#-hidden-code
 let backgroundView = UIView(frame: CGRect(x: 0, y: myView.bounds.height-170, width: myView.bounds.width, height: 200))
 backgroundView.backgroundColor = #colorLiteral(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
 backgroundView.alpha = 0.7
@@ -74,7 +75,7 @@ PlaygroundPage.current.liveView = myView
 /*:
  * callout(What did we learn?):
  Wonderful! So you just called a custom vision endooint from the Cognitive Services.
- 
+
  If you want to have a detailed look at the documentation - where you can find further examples - visit the dedicated [CUSTOM VISION documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/custom-vision-service/home) and the [CUSTOM VISION prediction definition](https://southcentralus.dev.cognitive.microsoft.com/docs/services/450e4ba4d72542e889d93fd7b8e960de/operations/5a6264bc40d86a0ef8b2c290).
  
  There you will learn how to train your model and then use it via REST API calls in your app also.*/
