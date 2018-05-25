@@ -30,4 +30,4 @@ With Airdrop - Just that easy :D But make sure that you are using Mac OS 10.11.6
 The playground and playground book are full of hints for handling the Cognitive Service APIs. All you have to do is fire up Xcode, open the files and just **add your own keys** for Computer Vision, Emotion and Face to the **CognitiveServices.swift** file. You'll get your keys as soon as you get your (free) trial on https://azure.microsoft.com/en-us/try/cognitive-services/. So now just Airdrop your playgrounds over to your iPad and you should be ready to go!
 
 ## Support?
-I will try to get back to you if you have any trouble using the playgrounds. But as this is kind of a side project by now, please be patient - just ping me on Twitter via @codeprincess.
+I will try to get back to you if you have any trouble using the playgrounds. But as this is kind of a side project by now, please be patient - just ping me on Twitter via [@codeprincess](https://analytics.twitter.com/user/codePrincess).
