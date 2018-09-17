@@ -88,7 +88,7 @@ myView.addSubview(preview)
 myView.addSubview(backgroundView)
 backgroundView.addSubview(textLabel)
 myView.addSubview(landmarkView)
-myView.bringSubview(toFront: landmarkView)
+myView.bringSubviewToFront(landmarkView)
 
 
 func detectFaces (_ photo : UIImageView) {
