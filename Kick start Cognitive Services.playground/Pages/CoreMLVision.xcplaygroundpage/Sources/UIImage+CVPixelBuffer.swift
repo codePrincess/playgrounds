@@ -89,7 +89,7 @@ extension UIImage {
                                                  width: Int,
                                                  height: Int,
                                                  scale: CGFloat = 0,
-                                                 orientation: UIImageOrientation = .up) -> UIImage? {
+                                                 orientation: UIImage.Orientation = .up) -> UIImage? {
         return fromByteArray(bytes, width: width, height: height,
                              scale: scale, orientation: orientation,
                              bytesPerRow: width * 4,
@@ -104,7 +104,7 @@ extension UIImage {
                                                  width: Int,
                                                  height: Int,
                                                  scale: CGFloat = 0,
-                                                 orientation: UIImageOrientation = .up) -> UIImage? {
+                                                 orientation: UIImage.Orientation = .up) -> UIImage? {
         return fromByteArray(bytes, width: width, height: height,
                              scale: scale, orientation: orientation,
                              bytesPerRow: width,
@@ -116,7 +116,7 @@ extension UIImage {
                                       width: Int,
                                       height: Int,
                                       scale: CGFloat,
-                                      orientation: UIImageOrientation,
+                                      orientation: UIImage.Orientation,
                                       bytesPerRow: Int,
                                       colorSpace: CGColorSpace,
                                       alphaInfo: CGImageAlphaInfo) -> UIImage? {

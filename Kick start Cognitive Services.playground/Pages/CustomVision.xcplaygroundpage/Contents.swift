@@ -23,7 +23,7 @@ let preview = UIImageView(frame: myView.bounds)
  * experiment:
  Choose your cat image right here or take a new one
  */
-preview.image = /*#-editable-code*/#imageLiteral(resourceName: "cat_smiling_2.jpg")/*#-end-editable-code*/
+preview.image = /*#-editable-code*/#imageLiteral(resourceName: "cat_grumpy_1.jpg")/*#-end-editable-code*/
 //#-hidden-code
 preview.contentMode = .scaleAspectFit
 

@@ -42,60 +42,59 @@ backgroundView.alpha = 0.7
 myView.addSubview(preview)
 myView.addSubview(backgroundView)
 myView.addSubview(textLabel)
-myView.bringSubview(toFront: textLabel)
+myView.bringSubviewToFront(textLabel)
 
 var emojis: [CognitiveServicesFacesResult]? = nil {
-didSet {
-    if preview.image == nil {
-        return
-    }
-    
-    if let results = emojis {
-        UIGraphicsBeginImageContext(preview.image!.size)
-        preview.image?.draw(in: CGRect(origin: CGPoint.zero, size: preview.image!.size))
+    didSet {
+        if preview.image == nil {
+            return
+        }
         
-        for result in results {
-            var availableEmojis = [String]()
-            switch result.emotion as CognitiveServicesEmotion! {
-            case .Anger:
-                availableEmojis.append("😡")
-                availableEmojis.append("😠")
-            case .Contempt:
-                availableEmojis.append("😤")
-            case .Disgust:
-                availableEmojis.append("😷")
-                availableEmojis.append("🤐")
-            case .Fear:
-                availableEmojis.append("😱")
-            case .Happiness:
-                availableEmojis.append("😝")
-                availableEmojis.append("😀")
-                availableEmojis.append("😃")
-                availableEmojis.append("😄")
-                availableEmojis.append("😆")
-                availableEmojis.append("😊")
-                availableEmojis.append("🙂")
-                availableEmojis.append("☺️")
-            case .Neutral:
-                availableEmojis.append("😶")
-                availableEmojis.append("😐")
-                availableEmojis.append("😑")
-            case .Sadness:
-                availableEmojis.append("🙁")
-                availableEmojis.append("😞")
-                availableEmojis.append("😟")
-                availableEmojis.append("😔")
-                availableEmojis.append("😢")
-                availableEmojis.append("😭")
-            case .Surprise:
-                availableEmojis.append("😳")
-                availableEmojis.append("😮")
-                availableEmojis.append("😲")
-            case .none:
-                break
-            case .some(_):
-                break
-            }
+        if let results = emojis {
+            UIGraphicsBeginImageContext(preview.image!.size)
+            preview.image?.draw(in: CGRect(origin: CGPoint.zero, size: preview.image!.size))
+            
+            for result in results {
+                var availableEmojis = [String]()
+                
+                if let emotion = result.emotion {
+                    switch emotion {
+                    case .Anger:
+                        availableEmojis.append("😡")
+                        availableEmojis.append("😠")
+                    case .Contempt:
+                        availableEmojis.append("😤")
+                    case .Disgust:
+                        availableEmojis.append("😷")
+                        availableEmojis.append("🤐")
+                    case .Fear:
+                        availableEmojis.append("😱")
+                    case .Happiness:
+                        availableEmojis.append("😝")
+                        availableEmojis.append("😀")
+                        availableEmojis.append("😃")
+                        availableEmojis.append("😄")
+                        availableEmojis.append("😆")
+                        availableEmojis.append("😊")
+                        availableEmojis.append("🙂")
+                        availableEmojis.append("☺️")
+                    case .Neutral:
+                        availableEmojis.append("😶")
+                        availableEmojis.append("😐")
+                        availableEmojis.append("😑")
+                    case .Sadness:
+                        availableEmojis.append("🙁")
+                        availableEmojis.append("😞")
+                        availableEmojis.append("😟")
+                        availableEmojis.append("😔")
+                        availableEmojis.append("😢")
+                        availableEmojis.append("😭")
+                    case .Surprise:
+                        availableEmojis.append("😳")
+                        availableEmojis.append("😮")
+                        availableEmojis.append("😲")
+                    }
+                }
             
             let emoji = availableEmojis.randomElement()
             
@@ -112,7 +111,7 @@ didSet {
                 }
                 
                 let font = UIFont.systemFont(ofSize: CGFloat(actualFontSize))
-                let calculatedSize = string.size(withAttributes: [NSAttributedStringKey.font: font])
+                let calculatedSize = string.size(withAttributes: [NSAttributedString.Key.font: font])
                 
                 if calculatedSize.width > maximumSize.width {
                     actualFontSize -= stepping
@@ -122,7 +121,7 @@ didSet {
             } while true
             
             let font = UIFont.systemFont(ofSize: CGFloat(actualFontSize))
-            string.draw(in: result.frame, withAttributes: [NSAttributedStringKey.font: font])
+            string.draw(in: result.frame, withAttributes: [NSAttributedString.Key.font: font])
         }
         
         preview.image = UIGraphicsGetImageFromCurrentImageContext()
